@@ -11,7 +11,7 @@ const VerifyPage = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/verify/${token}`);
+        const res = await axios.get(`https://error-logger.onrender.com/api/auth/verify/${token}`);
         setStatus("Email verified successfully! Redirecting to login...");
         toast.success("verfied");
         setTimeout(() => {

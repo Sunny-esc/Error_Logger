@@ -9,6 +9,7 @@ import Auth from "./auth";
 
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+const api = import.meta.env.VITE_API_URL;
 const Login = ({ onClose}) => {
   const [loading, setLoading] = useState(false);
   const SpinnerLoader = ({ size = 'w-8 h-8', color = 'border-blue-500' }) => (
@@ -63,7 +64,7 @@ const DotsLoader = () => (
     setLoading(true);
     if (user.email === admin.emaila && user.password === admin.passworda) {
        const response = await axios.post(
-        "http://localhost:3000/api/auth/admin",
+        "https://error-logger.onrender.com/api/auth/admin",
         {
           email:  user.email,
           password: user.password,
@@ -85,7 +86,7 @@ const DotsLoader = () => (
     else{
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "https://error-logger.onrender.com/api/auth/login",
         {
           email: user.email,
           password: user.password,

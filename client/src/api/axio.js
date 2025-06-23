@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: 'https://error-logger.onrender.com/api/',
   withCredentials: true, // Allow cookies if using sessions/cookies
 });
 

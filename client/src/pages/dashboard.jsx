@@ -29,7 +29,7 @@ export default function Dashboard() {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3000/api/auth/profile",
+          "https://error-logger.onrender.com/api/auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export default function Dashboard() {
     const fetcherros = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/api/all", {
+        const response = await axios.get("https://error-logger.onrender.com/api/all", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

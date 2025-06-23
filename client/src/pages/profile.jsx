@@ -18,7 +18,7 @@ const handleChangeEmail = async () => {
 
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/auth/updateemail",
+      "https://error-logger.onrender.com/api/auth/updateemail",
       { newEmail },
       {
         headers: {
@@ -51,7 +51,7 @@ const handleChangePassword = async () => {
 
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/auth/updatepass",
+      "https://error-logger.onrender.com/api/auth/updatepass",
       { oldPassword, newPassword },
       {
         headers: {
@@ -83,7 +83,7 @@ const handleChangePassword = async () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/api/auth/profile", {
+        const response = await axios.get("https://error-logger.onrender.com/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -21,7 +21,7 @@ export default function Notesaved() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/api/all", {
+      const response = await axios.get("https://error-logger.onrender.com/api/all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +114,7 @@ export default function Notesaved() {
 
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:3000/api/delete/${note._id}`, {
+      await axios.delete(`https://error-logger.onrender.com/api/delete/${note._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -163,7 +163,7 @@ export default function Notesaved() {
                       const token = localStorage.getItem("token");
                       try {
                         await axios.put(
-                          `http://localhost:3000/api/update/${note._id}`,
+                          `https://error-logger.onrender.com/api/update/${note._id}`,
                           editNote,
                           {
                             headers: {

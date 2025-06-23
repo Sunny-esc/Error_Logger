@@ -51,7 +51,7 @@ export default function Admin() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:3000/api/auth/profile", {
+        const res = await axios.get("https://error-logger.onrender.com/api/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -63,7 +63,7 @@ export default function Admin() {
 
         // if admin, fetch all users
         if (user?.isAdmin) {
-          const allUsers = await axios.get("http://localhost:3000/api/auth/usersall", {
+          const allUsers = await axios.get("https://error-logger.onrender.com/api/auth/usersall", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -85,7 +85,7 @@ export default function Admin() {
     const fetchNotes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:3000/api/feed", {
+        const res = await axios.get("https://error-logger.onrender.com/api/feed", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

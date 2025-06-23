@@ -27,7 +27,7 @@ const LoginPopup = ({ onClose }) => {
 
   const onSignup = async () => {
     try {
-      const response =await axios.post("http://localhost:3000/api/auth/register", {
+      const response =await axios.post("https://error-logger.onrender.com/api/auth/register", {
   email: user.email,
   password: user.password,
   username:user.username,

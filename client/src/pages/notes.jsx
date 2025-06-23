@@ -92,7 +92,7 @@ EditorView.updateListener.of((update) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/api/all", {
+      const response = await axios.get("https://error-logger.onrender.com/api/all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -113,7 +113,7 @@ EditorView.updateListener.of((update) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:3000/api/add",
+        "https://error-logger.onrender.com/api/add",
         { message: code,
            label: user.label,
           lang: user.lang,
