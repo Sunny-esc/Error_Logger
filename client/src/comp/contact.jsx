@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+
+export default function SimplePaper() {
+  const [user, setUser] = useState({
+    email: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setUser((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/feedback",
+        {
+          email: user.email,
+          message: user.message,
+        },
+        { withCredentials: true }
+      );
+      console.log("feedback successful:", response.data);
+      toast.success("Thanks for contacting!");
+      setUser({ email: "", message: "" });
+    } catch (error) {
+      console.error("feedback error:", error);
+      toast.error("Failed to send feedback.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="flex flex-col md:flex-row  rounded-2xl p-6 md:p-10  backdrop-blur-md shadow-lg max-w-4xl w-full mx-4">
+        <div className="flex justify-center items-center md:w-1/2 mb-6 md:mb-0">
+          <DotLottieReact
+            src="https://lottie.host/992c8167-f043-45ea-9181-f66c466461c0/8r0fqaCaVx.lottie"
+            loop
+            autoplay
+            className="w-48 h-48 md:w-64 md:h-64"
+          />
+        </div>
+
+        {/* Contact Form */}
+        <div className="md:w-1/2 flex flex-col justify-center">
+          <h1 className="text-3xl font-bold mb-6 text-center">Contact Dev</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="text-lg mb-1 block">Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                required
+                className="bg-slate-200 text-black rounded text-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="Email"
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="text-lg mb-1 block">Message:</label>
+              <textarea
+                name="message"
+                value={user.message}
+                onChange={handleChange}
+                required
+                className="bg-slate-200 text-black rounded text-lg w-full p-2  resize-none focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="Type your message"
+              />
+            </div>
+
+            <div className="text-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-slate-900 text-white text-xl rounded-xl border shadow-2xl px-6 py-2 hover:bg-slate-800"
+              >
+                {loading ? "Loading..." : "Send"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+

@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.light {
+  --bg-gradient: linear-gradient(to right, #f8fbff, #d3e2fd); /* soft light blues */
+  --text-color: #1a1a1a; /* near-black for elegant contrast */
+    --accent-color: #2563eb;
+  --selection-bg: #bcd7ff;
+  --scrollbar-bg: #e5e7eb;
+  --scrollbar-thumb: #cbd5e1;
+}
+
+.dark {
+  --bg-gradient: linear-gradient(to right, oklch(0.25 0.03 260), oklch(0.3 0.04 260)); /* elegant deep slate shades */
+  --text-color: #f1f1f1; /* soft white */
+    --accent-color: #3b82f6;
+  --selection-bg: #3b82f660;
+  --scrollbar-bg: #1e293b;
+  --scrollbar-thumb: #334155;
+}
+::selection {
+  background: var(--selection-bg);
+  color: inherit;
+}
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  transition: background 0.4s ease, color 0.4s ease;
+}
