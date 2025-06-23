@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./pages/layout.jsx";
-import "./app.css";
+import "App.css";
 import AdminPath from "./login/admin.jsx";
 import Publicroutes from "./login/routes.jsx";
 import ProtectedPath from "./login/protected.path.jsx";
