@@ -6,7 +6,12 @@ import router from './routes/auth.js';
 import errorHandler from './middleware/error.middleware.js';
 import Erouter from './controller/error.controller.js';
 import Frouter from './controller/feedback.controller.js';
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 
 // Cookie and JSON parsing
@@ -34,7 +39,6 @@ app.use('/api/', Frouter);
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });
-const path = require("path");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
