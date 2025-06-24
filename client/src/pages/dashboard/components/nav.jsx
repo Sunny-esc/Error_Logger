@@ -44,7 +44,7 @@ const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick }) => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden flex flex-col  rounded-xl shadow-lg p-4 gap-4 mx-2">
-          <button  className="flex items-center gap-2">
+          <button  className="flex items-center gap-2" onClick={onhomeClick}>
             <img src={home} alt="Home" className="w-6" />
             <span>Home</span>
           </button>
