@@ -80,8 +80,8 @@ const Login = ({ onClose }) => {
       localStorage.setItem("token", response.data.data.token); // or use cookies if your backend sets them
 
       console.log("Login successful:", response.data);
-      toast.success("Login successful!");
-      toast.success("Welcome back Admin");
+      toast.success("Login successful! Welcome back Admin");
+    
       Auth.isUser = true;
       Auth.isAdmin = true;
       setTimeout(() => navigate("/admin", { replace: true }), 2000);
@@ -122,7 +122,6 @@ const Login = ({ onClose }) => {
           <img src={react1} alt="Logo" className="h-6" />
         </div>
 
-        <Toaster position="top-center" reverseOrder={false} />
         <h2 className="text-xl font-medium mb-6 text-center ">
           {loading ? (
             <>

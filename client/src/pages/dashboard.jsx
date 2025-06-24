@@ -74,7 +74,7 @@ export default function Dashboard() {
   }, {});
 
   //time giver
-  const time = () => {
+  const timer= () => {
     const today = new Date();
     const time = today.getHours();
     if (time >= 11) {
@@ -85,12 +85,12 @@ export default function Dashboard() {
       return `Good Morning 🌅`;
     }
   };
-  const [current, setCurrent] = useState(time);
+  const [current, setCurrent] = useState(timer);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent(time);
-    }, 1000);
+      setCurrent(timer);
+    },60* 1000);
     return () => clearInterval(interval);
   }, []);
 

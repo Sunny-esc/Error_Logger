@@ -2,14 +2,15 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
-import transponder from "./mailer.js";
+//import transponder from "./mailer.js";
 import toast from "react-hot-toast";
 import Apiresponse from "../utils/Apiresponse.js";
 import authMiddleware from "../middleware/auth.middleware.js";
 const router = express.Router();
 
-// function to send email
-const sendVerificationEmail = async (user) => {
+// function to send email, there is an issue with it so we leaving as it is 
+
+{/*const sendVerificationEmail = async (user) => {
   const emailSecret = process.env.EMAIL || "s19ctrl@gmail.com";
   const token = jwt.sign({ id: user._id }, emailSecret, { expiresIn: "1h" });
 
@@ -21,7 +22,7 @@ const sendVerificationEmail = async (user) => {
     html: `<h1>From Errorlogger</h1><br> <p>Click the link below to verify your account:</p><a href="${url}">${url}</a>`,
   });
 };
-
+*/}
 // Register a new user
 router.post("/register", async (req, res) => {
   try {
@@ -44,7 +45,7 @@ router.post("/register", async (req, res) => {
       verified: false,
     });
     await newUser.save();
-    await sendVerificationEmail(newUser);
+    //await sendVerificationEmail(newUser);
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error("Register error:", err);
@@ -52,7 +53,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/verify/:token", async (req, res) => {
+{/*router.get("/verify/:token", async (req, res) => {
   try {
     const { token } = req.params;
     const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
@@ -68,7 +69,7 @@ router.get("/verify/:token", async (req, res) => {
     res.status(400).send("Invalid or expired token");
   }
 });
-
+*/}
 // admin user
 router.post("/admin", async (req, res) => {
   try {

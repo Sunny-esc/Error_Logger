@@ -68,9 +68,9 @@ const LoginPopup = ({ onClose }) => {
       setInterval(onClose(), 2000); // Close popup after signup
     } catch (error) {
       if (error.response.data === 409) {
-        toast.error("already exist");
+        toast.error("");
       }
-      toast.error("failed to register");
+  toast.error(error.response?.data?.error || "Signup failed! Please try again.");
       console.error(
         "Error during signup:",
         error.response?.data || error.message
