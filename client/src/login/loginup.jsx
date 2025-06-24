@@ -135,8 +135,10 @@ const loginWithRetry = async (payload, retries = 3) => {
   return (
     <div className="fixed inset-0 text-black  bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-sm">
-        <Toaster/>
-        <div className="flex justify-center mb-6">
+<Toaster
+  position="top-center"
+  reverseOrder={false}
+/>        <div className="flex justify-center mb-6">
           <img src={react1} alt="Logo" className="h-6" />
         </div>
 
