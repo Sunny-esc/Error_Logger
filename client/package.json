@@ -19,6 +19,7 @@
     "@mui/material": "^7.1.0",
     "@tailwindcss/vite": "^4.1.7",
     "@uiw/codemirror-theme-dracula": "^4.23.13",
+    "aos": "^2.3.4",
     "axios": "^1.9.0",
     "codemirror": "^6.0.1",
     "framer-motion": "^12.16.0",

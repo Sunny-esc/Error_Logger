@@ -6,6 +6,8 @@ import right from "../assets/svgs/right.svg";
 import left from "../assets/svgs/left.svg";
 import cart from "../assets/svgs/cart.svg";
 import { Link } from "react-router";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function Coursel({ slide }) {
   {
@@ -38,7 +40,6 @@ function Coursel({ slide }) {
   const [current, setCurrent] = useState(0);
 
   const [ishover, setHover] = useState(0);
-
   //slide automatation
   useEffect(() => {
     if (ishover) return;
@@ -50,6 +51,13 @@ function Coursel({ slide }) {
     return () => clearInterval(interval);
   }, [current, ishover]);
 
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+    });
+    AOS.refresh();})
   const next = () => {
     setCurrent((prev) => (prev === slide.length - 1 ? 0 : prev + 1));
   };
@@ -57,13 +65,16 @@ function Coursel({ slide }) {
   const prevs = () => {
     setCurrent((prev) => (prev === 0 ? slide.length - 1 : prev - 1));
   };
+ 
   const slideData = data[current]; // Get the current slide data
   {
     /*side setting idhar hai */
   }
   return (
     <>
-      <div className="mt-10 mb-10 bg-transparent shadow-2xl rounded-2xl md:mx-6 px-4 py-6">
+      <div className="mt-10 mb-10  bg-transparent shadow-xl rounded-2xl md:mx-6 px-4 py-6" 
+       
+      >
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-center mb-2">
           {slideData.title}
@@ -75,7 +86,17 @@ function Coursel({ slide }) {
         </h2>
 
         {/* Image Container */}
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center "
+         data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-delay="50"
+    data-aos-duration="1000"
+    data-aos-easing="ease-in-out"
+    data-aos-mirror="true"
+    data-aos-once="false"
+    data-aos-anchor-placement="top-center"
+      
+        >
           <div className="relative w-full max-w-4xl">
             <img
               src={slide[current]}

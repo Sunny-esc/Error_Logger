@@ -1,5 +1,6 @@
 import React from "react";
 import Header from '../assets/header';
+import Footer from "../assets/footer";
 
 
 export default function Docs() {
@@ -50,6 +51,7 @@ export default function Docs() {
         </ul>
       </section>
     </div>
+    <Footer/>
     </>
   );
 }

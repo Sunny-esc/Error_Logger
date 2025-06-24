@@ -66,11 +66,19 @@ export default function Footer() {
 }
 function getDate() {
   const today = new Date();
-  var second = today.getSeconds();
-  var min = today.getMinutes();
-  const time = today.getHours();
-  const month = today.getMonth();
+  const pad = (n) => n.toString().padStart(2, '0');
+
+  const hours = pad(today.getHours());
+  const minutes = pad(today.getMinutes());
+  const seconds = pad(today.getSeconds());
+  const day = pad(today.getDate());
   const year = today.getFullYear();
-  const date = today.getDate();
-  return ` ${time}:${min}:${second}/${date}/${month}/${year}`;
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const month = monthNames[today.getMonth()];
+
+  return `${hours}:${minutes}:${seconds} | ${day} ${month} ${year}`;
 }

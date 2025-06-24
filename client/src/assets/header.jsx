@@ -5,6 +5,7 @@ import product from "../assets/svgs/product.svg";
 import login from "../assets/svgs/login.svg";
 import sign from "../assets/svgs/sign.svg";
 import home from './home.svg'
+import logox from './svgs/logox.svg'
 import React, { useEffect, useState } from "react";
 import ChangeTheme from "../changetheme";
 import Signbutton from "../comp/signbutton.jsx";
@@ -61,8 +62,9 @@ export default function Header() {
 
   return (
     <div className="flex justify-between   items-center text-xl shadow-2xl my-1 rounded-2xl px-6 py-4 fixed top-0 w-full    z-50">
-      <a href="/" className="md:text-2xl font-bold">
-        logo
+      <a href="/" className="md:text-2xl font-bold flex gap-1">
+      <img src={logox} alt=""  className="w-9"/>
+        logger
       </a>
 
       {mobile ? (
