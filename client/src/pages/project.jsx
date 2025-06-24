@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../assets/header';
 import Footer from '../assets/footer';
 import projectImg from '../assets/img/x1.jpg'; // You can use a dashboard screenshot here
-
+import {Link} from 'react-router-dom'
 export default function Project() {
   return (
     <>
@@ -42,23 +42,23 @@ export default function Project() {
 
               <h2 className="text-2xl font-semibold mt-6">🧰 Tech Stack</h2>
               <div className="flex flex-wrap gap-4">
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">React</span>
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">Express</span>
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">MongoDB</span>
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">Node.js</span>
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">CodeMirror</span>
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm">Tailwind CSS</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">React</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">Express</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">MongoDB</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">Node.js</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">CodeMirror</span>
+                <span className="bg-gray-200 px-3 py-1 rounded-full text-black text-sm">Tailwind CSS</span>
               </div>
 
               <div className="mt-6">
-                <a
-                  href="https://github.com/yourusername/error-logger"
+                <Link
+                to="/notfound"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-800"
                 >
                   🔗 View GitHub Repo
-                </a>
+                </Link>
               </div>
             </div>
           </div>
