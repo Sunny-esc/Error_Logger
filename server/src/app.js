@@ -23,7 +23,7 @@ app.use(express.static('public'));
 // ✅ CORS comes FIRST
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://error-logger-rust.vercel.app/',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })

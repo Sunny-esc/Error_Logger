@@ -13,7 +13,7 @@ const sendVerificationEmail = async (user) => {
   const emailSecret = process.env.EMAIL || "s19ctrl@gmail.com";
   const token = jwt.sign({ id: user._id }, emailSecret, { expiresIn: "1h" });
 
-  const url = `http://localhost:3000/verify/${token}`;
+  const url = `https://error-logger.onrender.com/verify/${token}`;
 
   await transponder.sendMail({
     to: user.email,
