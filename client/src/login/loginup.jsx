@@ -57,15 +57,37 @@ const Login = ({ onClose }) => {
     }));
   };
 
+  //wakeup call
+  const pingServer = async () => {
+  try {
+    await axios.get("https://error-logger.onrender.com/");
+  } catch (err) {
+    console.warn("Ping failed — probably sleeping");
+  }
+};
+
+const loginWithRetry = async (payload, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await axios.post(
+        "https://error-logger.onrender.com/api/auth/login",
+        payload,
+        { withCredentials: true }
+      );
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+    }
+  }
+};
+
+//on login
   const onlogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    toast(
-      "The error logger is running on free deployment.there is chance your unable to login due to this so \n\n try agin after some time.",
-      {
-        duration: 7000,
-      }
-    );
+    toast("Waking up the server, please wait...", { duration: 5000 });
+      await pingServer();
+
     if (user.email === admin.emaila && user.password === admin.passworda) {
       const response = await axios.post(
         "https://error-logger.onrender.com/api/auth/admin",
@@ -88,16 +110,11 @@ const Login = ({ onClose }) => {
       if (onClose) onClose(); // Close popup after login
     } else {
       try {
-        const response = await axios.post(
-          "https://error-logger.onrender.com/api/auth/login",
-          {
-            email: user.email,
-            password: user.password,
-          },
-          { withCredentials: true }
-        );
+        const response =await loginWithRetry({
+        email: user.email,
+        password: user.password,
+      });
         localStorage.setItem("token", response.data.token); // or use cookies if your backend sets them
-        console.log("Login successful:", response.data);
         toast.success("Login successful! ");
 
         Auth.isUser = true;
