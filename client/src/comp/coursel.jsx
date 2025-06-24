@@ -64,46 +64,48 @@ function Coursel({ slide }) {
   return (
     <>
       <div className="mt-10 mb-10 bg-transparent shadow-2xl rounded-2xl md:mx-6 px-4 py-6">
-  {/* Title */}
-  <h1 className="text-2xl md:text-3xl font-bold text-center mb-2">
-    {slideData.title}
-  </h1>
+        {/* Title */}
+        <h1 className="text-2xl md:text-3xl font-bold text-center mb-2">
+          {slideData.title}
+        </h1>
 
-  {/* Name */}
-  <h2 className="text-xl md:text-2xl font-medium text-center  mb-6">
-    {slideData.name}
-  </h2>
+        {/* Name */}
+        <h2 className="text-xl md:text-2xl font-medium text-center  mb-6">
+          {slideData.name}
+        </h2>
 
-  {/* Image Container */}
-  <div className="flex items-center justify-center ">
-    <div className="relative w-full max-w-4xl">
-      <img
-        src={slide[current]}
-        alt="slide"
-        className="w-full h-[210px] md:h-[500px] object-cover rounded-2xl shadow-lg transition duration-300"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      />
-    
+        {/* Image Container */}
+        <div className="flex items-center justify-center ">
+          <div className="relative w-full max-w-4xl">
+            <img
+              src={slide[current]}
+              alt="slide"
+              className="w-full h-[210px] md:h-[500px] object-cover rounded-2xl shadow-lg transition duration-300"
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+            />
 
             {/* Text and buttons on the image */}
-           <div className="w-full flex flex-col md:flex-row mt-4 justify-between items-center md:items-end rounded-xl p-6 bg-white/80 shadow-lg gap-6 md:gap-0">
-  
-  {/* Left Description */}
-  <p className="hidden md:block w-1/2 text-gray-700 text-base leading-relaxed">
-    {slideData.description}
-  </p>
+            <div className="w-full hidden md:flex flex-col md:flex-row mt-4 justify-between items-center md:items-end rounded-xl p-6 bg-white/80 shadow-lg gap-6 md:gap-0">
+              {/* Left Description */}
+              <p className="hidden md:block w-1/2 text-gray-700 text-base leading-relaxed">
+                {slideData.description}
+              </p>
 
-  {/* Button Section (Desktop only) */}
-  <div className="hidden md:flex items-center gap-4 md:w-[300px] justify-end">
-    <button >
-     <Link to='/docs' className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-400 to-blue-300 px-5 py-3 text-black font-medium transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl"> <img src={cart} alt="Cart icon" className="w-6 h-6" />
-      <span>Read the docs</span></Link>
-     
-    </button>
-  </div>
-</div>
-
+              {/* Button Section (Desktop only) */}
+              <div className="hidden md:flex items-center gap-4 md:w-[300px] justify-end">
+                <button>
+                  <Link
+                    to="/docs"
+                    className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-400 to-blue-300 px-5 py-3 text-black font-medium transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
+                  >
+                    {" "}
+                    <img src={cart} alt="Cart icon" className="w-6 h-6" />
+                    <span>Read the docs</span>
+                  </Link>
+                </button>
+              </div>
+            </div>
 
             {/* Mobile view description and buttons */}
 
@@ -113,10 +115,12 @@ function Coursel({ slide }) {
               {/* Price + Checkout buttons */}
               <div className="flex items-center flex-wrap">
                 <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-300 to-blue-200 px-3 py-1 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
-                  <button >
-                    <Link to='docs' className="flex items-center gap-2">   <img src={cart} alt="cart-icon" className="w-5 h-5" />
-                    <span className="text-black">Read docs </span> </Link>
-                   
+                  <button>
+                    <Link to="docs" className="flex items-center gap-2">
+                      {" "}
+                      <img src={cart} alt="cart-icon" className="w-5 h-5" />
+                      <span className="text-black">Read docs </span>{" "}
+                    </Link>
                   </button>
                 </div>
               </div>

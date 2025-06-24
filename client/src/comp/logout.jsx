@@ -16,7 +16,7 @@ export default function Logoutbutton() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/logout",
+        "https://error-logger.onrender.com/api/auth/logout",
         {},
         { withCredentials: true }
       );

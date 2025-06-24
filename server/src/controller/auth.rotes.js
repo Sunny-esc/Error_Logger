@@ -18,7 +18,7 @@ const sendVerificationEmail = async (user) => {
   await transponder.sendMail({
     to: user.email,
     subject: "Verify Your Account",
-    html: `<p>Click the link below to verify your account:</p><a href="${url}">${url}</a>`,
+    html: `<h1>From Errorlogger</h1><br> <p>Click the link below to verify your account:</p><a href="${url}">${url}</a>`,
   });
 };
 
