@@ -46,7 +46,7 @@ const App = () => {
         <Signbutton />
       </div>
 
-      <div className="z-10">
+      <div className="">
         <TechCarousel />
       </div>
     </div>
