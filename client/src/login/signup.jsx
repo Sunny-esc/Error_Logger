@@ -46,17 +46,47 @@ const LoginPopup = ({ onClose }) => {
       [e.target.name]: e.target.value,
     }));
   };
+   //wakeup call
+  const pingServer = async () => {
+  try {
+    await axios.get("https://error-logger.onrender.com/");
+  } catch (err) {
+    console.warn("Ping failed — probably sleeping");
+  }
+};
+
+const signupWithRetry = async (payload, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await axios.post(
+        "https://error-logger.onrender.com/api/auth/register",
+        payload,
+        
+      );
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+    }
+  }
+};
 
   const onSignup = async () => {
+    if (!user.email || !user.username || !user.password) {
+    toast.error("All fields are required");
+    return;
+  }
+
+  setloading(true);
+  toast("Waking up server, please wait...", { duration: 5000 });
+
+  await pingServer();
     try {
-      const response = await axios.post(
-        "https://error-logger.onrender.com/api/auth/register",
-        {
-          email: user.email,
-          password: user.password,
-          username: user.username,
-        }
-      );
+      const response = await signupWithRetry({
+      email: user.email,
+      password: user.password,
+      username: user.username,
+    });
+      
       if (!user.email || !user.username || !user.password) {
         toast.error("All fields are required");
         return;
@@ -81,8 +111,8 @@ const LoginPopup = ({ onClose }) => {
   return (
     <div className="fixed inset-0 text-black bg-opacity-40  backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-sm">
-        <Toaster position="top-center" reverseOrder={false} />
-        <Toaster/>
+        <Toaster position="top-right" reverseOrder={false} />
+        
         <div className="flex justify-center mb-6">
           <img src={react1} alt="Logo" className="h-6" />
         </div>
