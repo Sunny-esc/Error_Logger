@@ -5,7 +5,6 @@ import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python"; // Import Python language extension
 import { java } from "@codemirror/lang-java";     // Import Java language extension (if available, or a generic one)
-import { csharp } from "@codemirror/lang-csharp"; // Import C# language extension (if available)
 import { rust } from "@codemirror/lang-rust";  
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import react1 from "../assets/svgs/logo/react1.svg";
@@ -60,9 +59,7 @@ export default function Notes() {
         // If not available or you don't need highlighting for it,
         // you can return a basic language setup or null
         return java();
-      case "csharp":
-        // You might need to install @codemirror/lang-csharp
-        return csharp();
+   
       case "rust":
         // You might need to install @codemirror/lang-rust
         return rust();
