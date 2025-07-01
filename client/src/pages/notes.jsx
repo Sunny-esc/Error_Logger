@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { toast ,Toaster} from "react-hot-toast";
 import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python"; // Import Python language extension
+import { java } from "@codemirror/lang-java";     // Import Java language extension (if available, or a generic one)
+import { csharp } from "@codemirror/lang-csharp"; // Import C# language extension (if available)
+import { rust } from "@codemirror/lang-rust";  
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import react1 from "../assets/svgs/logo/react1.svg";
 import circle from "../assets/svgs/circle.svg";
@@ -17,7 +21,7 @@ export default function Notes() {
 
    const [user, setUser] = useState({
       label: "",
-      lang: "",
+      lang: "JavaScript",
     });
 
   
@@ -45,42 +49,78 @@ export default function Notes() {
     },
   });
 
-  useEffect(() => {
+  const getLanguageEx=(lang)=>{
+    switch(lang){
+   case "javascript":
+        return javascript({ jsx: true });
+      case "python":
+        return python();
+      case "java":
+        // You might need to install @codemirror/lang-java if you haven't
+        // If not available or you don't need highlighting for it,
+        // you can return a basic language setup or null
+        return java();
+      case "csharp":
+        // You might need to install @codemirror/lang-csharp
+        return csharp();
+      case "rust":
+        // You might need to install @codemirror/lang-rust
+        return rust();
+      default:
+        return javascript({ jsx: true }); // Default to JS if language not found
+    }
+    
+  }
+   useEffect(() => {
     const editorParent = document.getElementById("editor");
-    if (editorParent && editorParent.children.length === 0) {
+    if (editorParent) {
+      // Clear existing editor if any to prevent multiple instances
+      if (editorRef.current) {
+        editorRef.current.destroy();
+      }
+
       const view = new EditorView({
         doc: code,
         lineWrapping: true,
         extensions: [
           responsiveTheme,
           basicSetup,
-          javascript({ jsx: true }),
+          getLanguageExtension(user.lang), // Use the selected language extension
           dracula,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               const newCode = update.state.doc.toString();
               setCode(newCode);
-           //   localStorage.setItem("notes-code", newCode);
+              // You had a setTimeout here for localStorage, keeping it for reference
+              // clearTimeout(timeout);
+              // timeout = setTimeout(() => {
+              //   localStorage.setItem("notes-code", newCode);
+              // }, 300);
             }
-            let timeout;
-EditorView.updateListener.of((update) => {
-  if (update.docChanged) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      const newCode = update.state.doc.toString();
-      setCode(newCode);
-    }, 300);
-  }
-})
-
           }),
         ],
         parent: editorParent,
       });
 
-      return () => view.destroy();
+      editorRef.current = view; // Store the EditorView instance
+
+      return () => {
+        if (editorRef.current) {
+          editorRef.current.destroy();
+          editorRef.current = null;
+        }
+      };
     }
-  }, []);
+  }, [user.lang, code]); // Re-run effect when `user.lang` or `code` changes
+
+  // Update CodeMirror doc when external 'code' state changes
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.state.doc.toString() !== code) {
+      editorRef.current.dispatch({
+        changes: { from: 0, to: editorRef.current.state.doc.length, insert: code },
+      });
+    }
+  }, [code]);
   
 
   // Fetch notes on mount
@@ -129,7 +169,7 @@ EditorView.updateListener.of((update) => {
       fetchNotes();
     } catch (err) {
       if(user.label===''||user.lang==='' ){
-        toast.error("pls input label and lang")
+      toast.error("Please provide both label and language");
       }else{
         toast.error("Error saving note");
 
@@ -165,15 +205,20 @@ EditorView.updateListener.of((update) => {
             value={user.label}
             name="label"
           />
-          <input
-            type="text"
-            required
-            placeholder="Language"
-            className=" p-1 rounded bg-slate-600 w-30  md:w-50 text-white"
-            onChange={handleChange}
-            value={user.lang}
-            name="lang"
-          />
+          <select
+                className="p-1 rounded bg-slate-600 w-30 md:w-50 text-white"
+                onChange={handleChange}
+                value={user.lang}
+                name="lang"
+                required
+              >
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="csharp">C#</option>
+                <option value="rust">Rust</option>
+                {/* Add more languages as needed */}
+              </select>
           </div>
           </div>
           
