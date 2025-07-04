@@ -15,11 +15,7 @@ const RecentActivity = () => {
       <h2 className="font-semibold text-lg mb-2">Recent Activity</h2>
       
       {/* Existing Activities */}
-      <ul className="mb-2 space-y-1">
-        <li>✅ Resolved issue in "Error Logger" project</li>
-        <li>📝 Updated notes comp</li>
-        <li>✨ Created new Features: "JSX Snippets"</li>
-      </ul>
+      
 
       {/* Git Commits */}
       <h3 className="font-medium mt-4">Recent Git Commits</h3>
