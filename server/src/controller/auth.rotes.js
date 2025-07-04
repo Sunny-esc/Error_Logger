@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import simpleGit from 'simple-git'
 import { User } from "../models/user.model.js";
 //import transponder from "./mailer.js";
 import toast from "react-hot-toast";
@@ -52,6 +53,27 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+
+//git records
+const git = simpleGit();
+
+router.get('/commits', async (req, res) => {
+  try {
+    const log = await git.log({ maxCount: 5 }); // Get last 5 commits
+    const commits = log.all.map(commit => ({
+      message: commit.message,
+      author: commit.author_name,
+      date: commit.date,
+    }));
+    res.json(commits);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Unable to fetch commits' });
+  }
+});
+
 
 {/*router.get("/verify/:token", async (req, res) => {
   try {
