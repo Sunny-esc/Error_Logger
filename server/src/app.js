@@ -21,9 +21,15 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
 // ✅ CORS comes FIRST
+const allowedOrigins = [
+  'https://error-logger-rust.vercel.app', // production frontend
+  'http://localhost:5173' // development frontend
+];
+
+
 app.use(
   cors({
-    origin: "https://error-logger-rust.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
