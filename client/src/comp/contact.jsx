@@ -17,20 +17,43 @@ export default function SimplePaper() {
     }));
   };
 
+    const pingServer = async () => {
+  try {
+    await axios.get("https://error-logger.onrender.com/");
+  } catch (err) {
+    console.warn("Ping failed — probably sleeping");
+  }
+};
+
+const retry=async (payload, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await axios.post(
+        "https://error-logger.onrender.com/api/feedback",
+        payload,
+        { withCredentials: true }
+      );
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+    }
+  }
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    toast("Waking up the server,hang in there...", { duration: 5000 });
+    await pingServer();
+
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/feedback",
-        {
-          email: user.email,
-          message: user.message,
-        },
-        { withCredentials: true }
-      );
+      const response = await retry({
+        email: user.email,
+        message: user.message,
+      });
       console.log("feedback successful:", response.data);
-      toast.success("Thanks for contacting!");
+      toast.success("Thanks for contacting ! I will work on it 🫡");
       setUser({ email: "", message: "" });
     } catch (error) {
       console.error("feedback error:", error);

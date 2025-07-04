@@ -143,29 +143,30 @@ EditorView.updateListener.of((update) => {
     <div className="md:px-6 w-full ">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex justify-between items-center">
-      <h1 className="text-xl md:text-2xl font-bold mb-2">Logs</h1>
-      <p className="text-base md:text-lg font-bold mb-4">This is the Log comp.</p>
-      
+        <h1 className="text-xl md:text-2xl font-bold mb-2">Logs</h1>
+        <p className="text-base md:text-lg font-bold mb-4">
+          This is the Log comp.
+        </p>
       </div>
       <div className="mb-4">
         <div className="bg-gray-700 w-full rounded-xl shadow-md mb-4 p-2">
           <div className="flex justify-between">
-         <div className="flex items-center justify-end gap-2 p-2">
-            <img src={circle} alt="" className="w-7" />
-            <img src={circle2} alt="" className="w-6" />
-            <img src={circle3} alt="" className="w-6" />
-          </div>
-          <div  className="space-x-4 flex ">
-          <input
-            type="text"
-            placeholder="Give Label..."
-            className=" p-1 rounded bg-slate-600 w-30  md:w-50 text-white"
-            onChange={handleChange}
-            required
-            value={user.label}
-            name="label"
-          />
-          <select
+            <div className="flex items-center justify-end gap-2 p-2">
+              <img src={circle} alt="" className="w-7" />
+              <img src={circle2} alt="" className="w-6" />
+              <img src={circle3} alt="" className="w-6" />
+            </div>
+            <div className="space-x-4 flex ">
+              <input
+                type="text"
+                placeholder="Give Label..."
+                className=" p-1 rounded bg-slate-600 w-30  md:w-50 text-white"
+                onChange={handleChange}
+                required
+                value={user.label}
+                name="label"
+              />
+              <select
                 className="p-1 rounded bg-slate-600 w-30 md:w-50 text-white"
                 onChange={handleChange}
                 value={user.lang} // Controlled component: value tied to user.lang state
@@ -175,13 +176,22 @@ EditorView.updateListener.of((update) => {
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
                 <option value="java">Java</option>
+                <option value="css">CSS</option>
+
+                <option value="html">HTML</option>
+                <option value="jsx">JSX</option>
+
+                <option value="cpp">C++</option>
+
+                <option value="csharp">C#</option>
+
                 <option value="csharp">C#</option>
                 <option value="rust">Rust</option>
                 {/* Add more options here as desired */}
               </select>
+            </div>
           </div>
-          </div>
-          
+
           <div
             id="editor"
             className="rounded-xl overflow-hidden p-2 md:p-3"
@@ -196,7 +206,7 @@ EditorView.updateListener.of((update) => {
           </button>
         </div>
       </div>
-     
+
       {/* Display saved notes the sec is temporary 
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">Saved Notes:</h2>

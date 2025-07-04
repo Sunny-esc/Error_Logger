@@ -9,6 +9,7 @@ import { Toaster, toast } from "react-hot-toast";
 import Notes from "./notes";
 import Notesaved from "./stored";
 import Profile from "./profile";
+import RecentActivity from './dashboard/gitlog'
 import Sidecontent from "./sidecontent";
 
 export default function Dashboard() {
@@ -210,12 +211,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="bg-white text-gray-800 rounded-xl p-4 shadow-md w-full max-w-md">
-              <h3 className="text-lg font-semibold mb-2">Recent Activity</h3>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li>✔️ Resolved issue in "Error Logger" project</li>
-                <li>📝 Updated notes comp</li>
-                <li>📁 Created new Features: "JSX Snippets"</li>
-              </ul>
+              <RecentActivity/>
             </div>
           </div>
         </div>
