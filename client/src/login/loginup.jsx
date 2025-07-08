@@ -98,7 +98,7 @@ const Login = ({ onClose }) => {
   const loginWithGoogle = async () => {
     await pingServer();
     toast("Redirecting to Google...", { duration: 4000 });
-    window.location.href = "https://error-logger.onrender.com/auth/google";
+    window.location.href = "https://error-logger.onrender.com/api/auth/google";
   };
 
   //on login

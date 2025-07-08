@@ -1,3 +1,4 @@
+import passport from "passport";
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -6,7 +7,6 @@ import { User } from "../models/user.model.js";
 //import transponder from "./mailer.js";
 import toast from "react-hot-toast";
 import Apiresponse from "../utils/Apiresponse.js";
-import passport from "passport";
 
 import authMiddleware from "../middleware/auth.middleware.js";
 const router = express.Router();

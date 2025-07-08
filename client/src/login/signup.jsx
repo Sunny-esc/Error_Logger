@@ -100,7 +100,7 @@ const LoginPopup = ({ onClose }) => {
   const loginWithGoogle = async () => {
     await pingServer();
     toast("Waking up server, please wait...", { duration: 5000 });
-    window.location.href = "https://error-logger.onrender.com/auth/google";
+    window.location.href = "https://error-logger.onrender.com/api/auth/google";
   };
 
   const onSignup = async () => {
