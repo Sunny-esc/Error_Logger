@@ -8,7 +8,7 @@ import Erouter from './controller/error.controller.js';
 import Frouter from './controller/feedback.controller.js';
 import path from "path";
 import session from 'express-session';
-
+import './controller/passport.js'
 import passport from 'passport';
 
 
