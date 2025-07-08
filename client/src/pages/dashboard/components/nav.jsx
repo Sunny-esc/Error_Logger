@@ -9,7 +9,7 @@ import archive from '../archive.svg';
 import Logoutbutton from "../../../comp/logout";
 import { Link } from "react-router";
 
-const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick }) => {
+const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick,oninfo }) => {
   const navigate = useNavigate();
   const ref = useRef();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,10 +60,10 @@ const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick }) => {
             <img src={account} alt="Account" className="w-6" />
             <span>Account</span>
           </button>
-          <div className="flex items-center gap-2">
-            <img src={info} alt="Info" className="w-6" />
-            <span>Info</span>
-          </div>
+         <button className="flex items-center gap-2" onClick={oninfo}>
+            <img src={account} alt="Account" className="w-6" />
+            <span>info</span>
+          </button>
           <Logoutbutton />
         </div>
       )}
@@ -100,10 +100,10 @@ const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick }) => {
           <span className="hidden group-hover:block group-hover:ease-in-out">Account</span>
         </button>
 
-        <div className="mt-5 shadow-2xl rounded-2xl group p-3 flex gap-1 justify-center items-center transition-all duration-300 ease-in hover:scale-120">
+        <button className="mt-5 shadow-2xl rounded-2xl group p-3 flex gap-1 justify-center items-center transition-all duration-300 ease-in hover:scale-120" onClick={oninfo}>
           <img src={info} alt="" className="w-9" />
           <span className="hidden text-sm group-hover:block group-hover:ease-in-out">Info</span>
-        </div>
+        </button>
 
         <div><Logoutbutton /></div>
         <div><ChangeTheme /></div>

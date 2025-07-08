@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
     unique:true,
     required: [true, "Your password is required"],
   },
+  googleId: { type: String, unique: true },
+  profilePicture: { type: String },
 
   createdAt: {
     type: Date,

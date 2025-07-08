@@ -1,8 +1,19 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,500&display=swap');
 @import "tailwindcss";
 
+
+.roboto{
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
 body {
-  font-family: 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
   font-size: 1.05rem;
+  font-family: Roboto;
   line-height: 1.6;
   margin: 0;
   padding: 0;
@@ -12,7 +23,7 @@ body {
 }
 
 .light {
-  --bg-gradient: linear-gradient(to right, #f8fbff, #d3e2fd); /* soft light blues */
+  --bg-gradient: linear-gradient(to right,#f8fbff,#d3e2fd, #f8fbff ); /* soft light blues */
   --text-color: #1a1a1a; /* near-black for elegant contrast */
     --accent-color: #2563eb;
   --selection-bg: #bcd7ff;
@@ -21,7 +32,7 @@ body {
 }
 
 .dark {
-  --bg-gradient: linear-gradient(to right, oklch(0.25 0.03 260), oklch(0.3 0.04 260)); /* elegant deep slate shades */
+  --bg-gradient: linear-gradient(to right,  #020618, #162456, #020618); /* elegant deep slate shades */
   --text-color: #f1f1f1; /* soft white */
     --accent-color: #3b82f6;
   --selection-bg: #3b82f660;

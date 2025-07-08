@@ -24,13 +24,30 @@ const router = express.Router();
   });
 };
 */}
+{/*router.get("/verify/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
+    const user = await User.findById(decoded.id);
+
+    if (!user) return res.status(404).send("User not found");
+
+    user.verified = true;
+    await user.save();
+
+    res.send("Email verified successfully");
+  } catch (err) {
+    res.status(400).send("Invalid or expired token");
+  }
+});
+*/}
 // Register a new user
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
     // Check if user already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await User.findOne({ $or: [{ email }] });
     if (existingUser) {
       return res.status(409).json({ error: "User already exists" });
     }
@@ -75,23 +92,7 @@ router.get('/commits', async (req, res) => {
 });
 
 
-{/*router.get("/verify/:token", async (req, res) => {
-  try {
-    const { token } = req.params;
-    const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
-    const user = await User.findById(decoded.id);
 
-    if (!user) return res.status(404).send("User not found");
-
-    user.verified = true;
-    await user.save();
-
-    res.send("Email verified successfully");
-  } catch (err) {
-    res.status(400).send("Invalid or expired token");
-  }
-});
-*/}
 // admin user
 router.post("/admin", async (req, res) => {
   try {
@@ -142,7 +143,7 @@ router.post("/login", async (req, res) => {
 
     // Generate token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "6h",
     });
     res.cookie("token", token, {
       httpOnly: true,
@@ -161,6 +162,67 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token"); // only if you're using cookies
   res.status(200).json({ message: "Logged out successfully" });
 });
+
+
+// Google authentication route
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+// Google callback route
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, send a token
+    const token = jwt.sign({  userId: req.user._id}, process.env.JWT_SECRET, {
+      expiresIn: "6h",
+    });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+    res.redirect(
+      `${process.env.GOOGLE_AUTH_CLIENT_URL_SUCCESS}/success?token=${token}`
+    );
+  }
+);
+
+// Success route
+router.get('/success', (req, res) => {
+  const { token } = req.query;
+  // Render a success page or send a response with the token
+  res.json({ message: 'Authentication successful', token });
+});
+
+// Protected Route
+router.get('/isAuthenticated', verifyToken, (req, res) => {
+  res.status(200).json({
+    message: 'This is a protected endpoint',
+    user: req.user,
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //get user profile
 router.get("/profile", async (req, res) => {

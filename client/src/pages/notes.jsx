@@ -4,226 +4,347 @@ import { toast ,Toaster} from "react-hot-toast";
 import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { dracula } from "@uiw/codemirror-theme-dracula";
-import react1 from "../assets/svgs/logo/react1.svg";
-import circle from "../assets/svgs/circle.svg";
-import circle2 from "../assets/svgs/circle2.svg";
-import circle3 from "../assets/svgs/circle3.svg";
+
+import { Code, Save, FileText, Zap, Terminal, Copy, Check, RefreshCw } from "lucide-react"; 
 
 export default function Notes() {
-  const [code, setCode] = useState("console.log('hello');");
-  const [notes, setNotes] = useState([]);
-  const [loading, setLoading] = useState(false);
+ const [code, setCode] = useState("console.log('Hello World! 🚀');");
+ const [notes, setNotes] = useState([]);
+ const [loading, setLoading] = useState(false);
+ const [copied, setCopied] = useState(false);
+ const [fetchingNotes, setFetchingNotes] = useState(false);
+ const [user, setUser] = useState({
+   label: "",
+   lang: "javascript",
+ });
+
+const handleChange = (e) => {
+   setUser((prev) => ({
+     ...prev,
+     [e.target.name]: e.target.value,
+   }));
+ };
+
+//new featers
+ const copyToClipboard = () => {
+   navigator.clipboard.writeText(code);
+   setCopied(true);
+   setTimeout(() => setCopied(false), 2000);
+ };
+
+//lang
+const languageOptions = [
+   { value: "javascript", label: "JavaScript", icon: "JS" },
+   { value: "python", label: "Python", icon: "PY" },
+   { value: "java", label: "Java", icon: "JA" },
+   { value: "css", label: "CSS", icon: "CS" },
+   { value: "html", label: "HTML", icon: "HT" },
+   { value: "jsx", label: "JSX", icon: "JX" },
+   { value: "cpp", label: "C++", icon: "C+" },
+   { value: "csharp", label: "C#", icon: "C#" },
+   { value: "rust", label: "Rust", icon: "RS" },
+ ];
+
+ const responsiveTheme = EditorView.theme({
+         "&": {
+           width: "100%",
+           height: "400px",
+           borderRadius: "0.80rem",
+           overflow: "hidden",
+         },
+"@media (max-width: 640px)": {
+     "&": {
+       height: "300px",
+       fontSize: "0.95rem",
+     },
+   },
+ });
 
 
-   const [user, setUser] = useState({
-      label: "",
-      lang: "",
-    });
-
-  
-    const handleChange = (e) => {
-      setUser((prev) => ({
-        ...prev,
-        [e.target.name]: e.target.value,
-      }));
-    };
-  const responsiveTheme = EditorView.theme({
-    "&": {
-      width: "800px",
-      maxWidth: "100%",
-      height: "400px",
-      borderRadius: "0.90rem",
-      overflow: "hidden",
-      scrollbarcolor: "black transparent",
-    },
-    "@media (max-width: 640px)": {
-      "&": {
-        width: "80vw",
-        height: "250px",
-        fontSize: "0.95rem",
-      },
-    },
-  });
-
-  useEffect(() => {
-    const editorParent = document.getElementById("editor");
-    if (editorParent && editorParent.children.length === 0) {
-      const view = new EditorView({
-        doc: code,
-        lineWrapping: true,
-        extensions: [
-          responsiveTheme,
-          basicSetup,
-          javascript({ jsx: true }),
-          dracula,
-          EditorView.updateListener.of((update) => {
-            if (update.docChanged) {
-              const newCode = update.state.doc.toString();
-              setCode(newCode);
-           //   localStorage.setItem("notes-code", newCode);
-            }
-            let timeout;
+useEffect(() => {
+   const editorParent = document.getElementById("editor");
+   if (editorParent && editorParent.children.length === 0) {
+     const view = new EditorView({
+       doc: code,
+       lineWrapping: true,
+       extensions: [
+         responsiveTheme,
+         basicSetup,
+        javascript({ jsx: true }),
+        dracula,
+         EditorView.updateListener.of((update) => {
+           if (update.docChanged) {
+            const newCode = update.state.doc.toString();
+            setCode(newCode);
+          //   localStorage.setItem("notes-code", newCode);
+           }
+           let timeout;
 EditorView.updateListener.of((update) => {
-  if (update.docChanged) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      const newCode = update.state.doc.toString();
-      setCode(newCode);
-    }, 300);
-  }
+ if (update.docChanged) {
+   clearTimeout(timeout);
+   timeout = setTimeout(() => {
+     const newCode = update.state.doc.toString();
+     setCode(newCode);
+   }, 300);
+ }
 })
 
-          }),
-        ],
-        parent: editorParent,
-      });
+         }),
+       ],
+       parent: editorParent,
+     });
 
-      return () => view.destroy();
-    }
-  }, []);
+    return () => view.destroy();
+   }
+ }, []);
+
+
+
+
+ // Fetch notes on mount
+ useEffect(() => {
+   fetchNotes();
+ }, []);
+
+ const fetchNotes = async () => {
+   setFetchingNotes(true);
+
+   try {
+     const token = localStorage.getItem("token");
+     const response = await axios.get("https://error-logger.onrender.com/api/all", {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+       withCredentials: true,
+     });
+     toast.success("Notes fetched successfully!");
+     setNotes(Array.isArray(response.data) ? response.data : []);
+   } catch (err) {
+     toast.error("Error fetching notes");
+   } finally {
+   setFetchingNotes(false);
+
+   }
+ };
+
+ const handleAddNote = async () => {
+   if (!code.trim()) return;
   
-
-  // Fetch notes on mount
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  const fetchNotes = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("https://error-logger.onrender.com/api/all", {
+   if (!user.label || !user.lang) {
+     toast.error("Please provide both label and language");
+     return;
+   }
+  
+   setLoading(true);
+   try {
+     const token = localStorage.getItem("token");
+    await axios.post(
+       "https://error-logger.onrender.com/api/add",
+       { message: code,
+         label: user.label,
+         lang: user.lang,
+       },
+     {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
-      });
-      toast.success("Notes fetched successfully!");
-      setNotes(Array.isArray(response.data) ? response.data : []);
-    } catch (err) {
-      toast.error("Error fetching notes");
-    } finally {
-      setLoading(false);
-    }
-  };
+         withCredentials: true,
+}
+     );
+     toast.success("Note saved!");
+     fetchNotes();
+   } catch (err) {
+      toast.error("Error saving note");
+     }
+    finally {
+     setLoading(false);
+   }
+ };
 
-  const handleAddNote = async () => {
-    if (!code.trim()) return;
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        "https://error-logger.onrender.com/api/add",
-        { message: code,
-           label: user.label,
-          lang: user.lang,
-         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success("Note saved!");
-      fetchNotes();
-    } catch (err) {
-      if(user.label===''||user.lang==='' ){
-        toast.error("pls input label and lang")
-      }else{
-        toast.error("Error saving note");
 
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+ return ( 
 
-  return (
-    <div className="md:px-6 w-full ">
+   <div className="min-h-screen rounded-2xl bg-slate-950 md:p-4"> 
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl md:text-2xl font-bold mb-2">Logs</h1>
-        <p className="text-base md:text-lg font-bold mb-4">
-          This is the Log comp.
-        </p>
-      </div>
-      <div className="mb-4">
-        <div className="bg-gray-700 w-full rounded-xl shadow-md mb-4 p-2">
-          <div className="flex justify-between">
-            <div className="flex items-center justify-end gap-2 p-2">
-              <img src={circle} alt="" className="w-7" />
-              <img src={circle2} alt="" className="w-6" />
-              <img src={circle3} alt="" className="w-6" />
-            </div>
-            <div className="space-x-4 flex ">
+
+
+<div className="max-w-6xl mx-auto">
+       {/* Header */}
+       <div className=" mb-8">
+         <div className="flex items-center justify-between gap-3 mb-4">
+           <div className="p-3 flex  rounded-xl shadow-lg">
+             <Terminal className="w-8 h-8 text-white" />
+
+           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+             Code Logger
+           </h1>
+         </div>
+         <p className="text-slate-400 text-lg">
+           Write, save, and manage your code snippets with professional tools
+         </p>
+       </div>
+
+       {/* Main Editor Card */}
+       <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl mb-8">
+         {/* Editor Header */}
+         <div className="flex flex-col lg:flex-row items-center justify-between p-6 border-b border-slate-700/50">
+           <div className="flex items-center gap-3 mb-4 lg:mb-0">
+             <div className="flex gap-2">
+               <div className="w-3 h-3 bg-red-500 rounded-full shadow-lg"></div>
+               <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-lg"></div>
+               <div className="w-3 h-3 bg-green-500 rounded-full shadow-lg"></div>
+             </div>
+             <span className="text-slate-400 text-sm font-medium ml-2">Code Editor</span>
+           </div>
+          
+           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+             <div className="relative">
+               <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Give Label..."
-                className=" p-1 rounded bg-slate-600 w-30  md:w-50 text-white"
+                placeholder="Enter snippet label..."
+                className="pl-10 pr-4 py-3 bg-slate-700/60 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-full sm:w-48"
                 onChange={handleChange}
-                required
-                value={user.label}
+               value={user.label}
                 name="label"
-              />
+               />
+             </div>
+            
+             <div className="relative">
+               <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <select
-                className="p-1 rounded bg-slate-600 w-30 md:w-50 text-white"
+                className="pl-10 pr-8 py-3 bg-slate-700/60 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none w-full sm:w-40"
                 onChange={handleChange}
-                value={user.lang} // Controlled component: value tied to user.lang state
-                name="lang" // Important for handleChange to update user.lang
-                required
-              >
-                <option value="javascript">JavaScript</option>
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="css">CSS</option>
+                value={user.lang}
+                 name="lang"
+               >
+                 {languageOptions.map((lang) => (
+                  <option key={lang.value} value={lang.value}>
+                   {lang.label}
+                   </option>
+                 ))}
+               </select>
+             </div>
+           </div>
+         </div>
 
-                <option value="html">HTML</option>
-                <option value="jsx">JSX</option>
+         {/* Code Editor */}
+         <div className="p-6">
+           <div className="relative">
+             <div
+               id="editor"
+               className="rounded-xl overflow-hidden border border-slate-700/50 shadow-inner"
+               style={{ minHeight: "400px" }}
+             ></div>
+            
+             {/* Copy button */}
+             <button
+               onClick={copyToClipboard}
+               className="absolute top-4 right-4 p-2 bg-slate-800/80 hover:bg-slate-700/80 rounded-lg transition-all duration-200 group backdrop-blur-sm"
+             >
+               {copied ? (
+                <Check className="w-4 h-4 text-green-400" />
+               ) : (
+                <Copy className="w-4 h-4 text-slate-400 group-hover:text-white" />
+               )}
+             </button>
+           </div>
 
-                <option value="cpp">C++</option>
+           {/* Action Buttons */}
+         <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+             <div className="flex items-center gap-4 text-slate-400">
+               <div className="flex items-center gap-1">
+                 <Zap className="w-4 h-4" />
+                 <span className="text-sm">Lines: {code.split('\n').length}</span>
+               </div>
+              <div className="flex items-center gap-1">
+                 <FileText className="w-4 h-4" />
+                 <span className="text-sm">Chars: {code.length}</span>
+               </div>
+             </div>
+           
+             <div className="flex gap-3">
+               <button
+                 onClick={fetchNotes}
+                 disabled={fetchingNotes}
+                 className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-600/50 text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 disabled:opacity-50"
+               >
+                 <RefreshCw className={`w-4 h-4 ${fetchingNotes ? 'animate-spin' : ''}`} />
+                 Refresh
+               </button>
+              
+               <button
+                 onClick={handleAddNote}
+                 disabled={loading || !code.trim() || !user.label || !user.lang}
+                 className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 disabled:from-slate-600 disabled:to-slate-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg"
+               >
+                 {loading ? (
+                   <>
+                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                     Saving...
+                   </>
+                 ) : (
+                   <>
+                     <Save className="w-4 h-4" />
+                     Save Snippet
+                   </>
+                 )}
+               </button>
+             </div>
+           </div>
+         </div>
+       </div>
 
-                <option value="csharp">C#</option>
-
-                <option value="csharp">C#</option>
-                <option value="rust">Rust</option>
-                {/* Add more options here as desired */}
-              </select>
-            </div>
-          </div>
-
-          <div
-            id="editor"
-            className="rounded-xl overflow-hidden p-2 md:p-3"
-            style={{ minHeight: "250px" }}
-          ></div>
-          <button
-            onClick={handleAddNote}
-            disabled={loading}
-            className="bg-white text-black rounded-xl p-1 m-1 w-16 transition-all ease-in-out duration-300 hover:scale-105"
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
-        </div>
-      </div>
-
-      {/* Display saved notes the sec is temporary 
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">Saved Notes:</h2>
-        <ul className="space-y-2 h-54 overflow-auto">
-          {notes.map((note) => (
-            <li
-              key={note._id}
-              className=" p-2 rounded-md shadow-sm text-sm overflow-hidden h-20"
-            >
-              <p className="break-words whitespace-pre-wrap">{note.message}</p>
-              <p className="text-xs text-gray-500 mt-1">
-                {new Date(note.timestamp).toLocaleString()}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>*/}
-    </div>
-  );
+       {/* Saved Notes
+       {notes.length > 0 && (
+         <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl">
+           <div className="p-6 border-b border-slate-700/50">
+             <div className="flex items-center justify-between">
+               <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                 <FileText className="w-5 h-5" />
+                 Saved Snippets ({notes.length})
+               </h2>
+               {fetchingNotes && (
+                 <div className="flex items-center gap-2 text-slate-400">
+                   <RefreshCw className="w-4 h-4 animate-spin" />
+                   <span className="text-sm">Loading...</span>
+                 </div>
+               )}
+             </div>
+           </div>
+          
+           <div className="p-6">
+             <div className="grid gap-4 max-h-96 overflow-y-auto">
+               {notes.map((note) => (
+                 <div
+                   key={note._id}
+                   className="bg-slate-900/60 rounded-xl border border-slate-700/50 p-4 hover:border-blue-500/50 transition-all duration-200 backdrop-blur-sm"
+                 >
+                   <div className="flex items-center justify-between mb-3">
+                     <div className="flex items-center gap-2">
+                       <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-medium">
+                         {note.label}
+                       </span>
+                       <span className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-lg text-sm">
+                         {languageOptions.find(lang => lang.value === note.lang)?.label || note.lang}
+                       </span>
+                     </div>
+                     <span className="text-xs text-slate-400">
+                       {new Date(note.timestamp).toLocaleString()}
+                     </span>
+                   </div>
+                   <pre className="text-sm text-green-400 bg-slate-950/80 rounded-lg p-3 overflow-x-auto font-mono border border-slate-800/50">
+                     {note.message}
+                   </pre>
+                 </div>
+               ))}
+             </div>
+           </div>
+         </div>
+       )} */}
+     </div>
+   </div>
+     </div>
+ 
+ );
 }

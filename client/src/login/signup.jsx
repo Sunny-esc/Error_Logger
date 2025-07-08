@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import react1 from "../assets/svgs/logo/react1.svg";
-//import Login from "./loginup.jsx";
-import Loginbutton2 from "../comp/loginbutton2.jsx";
-import Login from "./loginup.jsx";
+
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
+import { SiGoogle } from "react-icons/si";
+import { Backdrop, Box, Modal, Fade, Button, Typography } from "@mui/material";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  borderRadius: 4,
+  boxShadow: 24,
+  p: 4,
+};
 
 //animations
 const DotsLoader = () => (
@@ -26,12 +38,14 @@ const SpinnerLoader = ({ size = "w-8 h-8", color = "border-blue-500" }) => (
   ></div>
 );
 
-
 const LoginPopup = ({ onClose }) => {
   const navigate = useNavigate();
-    const handleHome = () => {
-      navigate("/");
-    };
+  const handleHome = () => {
+    navigate("/");
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const [loading, setloading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState({
@@ -46,61 +60,86 @@ const LoginPopup = ({ onClose }) => {
       [e.target.name]: e.target.value,
     }));
   };
-   //wakeup call
+  //wakeup call
   const pingServer = async () => {
-  try {
-    await axios.get("https://error-logger.onrender.com/");
-  } catch (err) {
-    console.warn("Ping failed — probably sleeping");
-  }
-};
-
-const signupWithRetry = async (payload, retries = 3) => {
-  for (let i = 0; i < retries; i++) {
     try {
-      return await axios.post(
-        "https://error-logger.onrender.com/api/auth/register",
-        payload,
-        
-      );
+      await axios.get("https://error-logger.onrender.com/");
     } catch (err) {
-      if (i === retries - 1) throw err;
-      await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+      console.warn("Ping failed — probably sleeping");
     }
-  }
-};
+  };
+  useEffect(() => {
+    pingServer();
+  }, []);
+  const signupWithRetry = async (payload, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await axios.post(
+          "https://error-logger.onrender.com/api/auth/register",
+          payload
+        );
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+      }
+    }
+  };
+  const signupWithgoogleRetry = async (payload, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await axios.post(
+          "https://error-logger.onrender.com/api/auth/google",
+          payload
+        );
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise((res) => setTimeout(res, 3000)); // 3s delay between retries
+      }
+    }
+  };
+  const loginWithGoogle = async () => {
+    await pingServer();
+    toast("Waking up server, please wait...", { duration: 5000 });
+    window.location.href = "https://error-logger.onrender.com/auth/google";
+  };
 
   const onSignup = async () => {
     if (!user.email || !user.username || !user.password) {
-    toast.error("All fields are required");
-    return;
-  }
+      toast.error("All fields are required");
+      return;
+    }
 
-  setloading(true);
-  toast("Waking up server, please wait...", { duration: 5000 });
+    setloading(true);
+    toast("Waking up server, please wait...", { duration: 5000 });
 
-  await pingServer();
+    await pingServer();
     try {
       const response = await signupWithRetry({
-      email: user.email,
-      password: user.password,
-      username: user.username,
-    });
-      
+        email: user.email,
+        password: user.password,
+        username: user.username,
+      });
+
       if (!user.email || !user.username || !user.password) {
         toast.error("All fields are required");
         return;
       }
 
+      if (user.password.length < 6) {
+        toast.error("Password must be at least 6 characters");
+        return;
+      }
       console.log("Signup successful:", response.data);
       toast.success("signup successfull");
       navigate("/login");
-      setInterval(onClose(), 2000); // Close popup after signup
+      setTimeout(() => onClose(), 2000);
     } catch (error) {
       if (error.response.data === 409) {
         toast.error("");
       }
-  toast.error(error.response?.data?.error || "Signup failed! Please try again.");
+      toast.error(
+        error.response?.data?.error || "Signup failed! Please try again."
+      );
       console.error(
         "Error during signup:",
         error.response?.data || error.message
@@ -109,70 +148,100 @@ const signupWithRetry = async (payload, retries = 3) => {
   };
 
   return (
-    <div className="fixed inset-0 text-black bg-opacity-40  backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-sm">
-        
-        <div className="flex justify-center mb-6">
-          <img src={react1} alt="Logo" className="h-6" />
-        </div>
+    <Modal
+      open={open}
+      onClose={onClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{ backdrop: { timeout: 500 } }}
+    >
+      <Fade in={open}>
+        <Box sx={modalStyle}>
+          <div className="flex justify-center mb-4">
+            <img src={react1} alt="Logo" className="h-6" />
+          </div>
 
-        <h2 className="text-xl font-medium mb-6 text-center ">
-          {loading ? "Processing.." : "Signup"}
-        </h2>
-        <input
-          type="username"
-          name="username"
-          placeholder="username"
-          value={user.username}
-          onChange={handleChange}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={user.email}
-          onChange={handleChange}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={handleChange}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          <h2 className="text-xl text-black font-medium mb-4 text-center">
+            {loading ? "Processing.." : "Signup"}
+          </h2>
 
-        <p className="text-sm md:text-lg mb-4">
-          Already have an account?{" "}
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={user.username}
+            onChange={handleChange}
+            className="w-full px-4 py-2 text-gray-700 mb-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={user.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mb-3 text-gray-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <div className="relative mb-3">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={user.password}
+              onChange={handleChange}
+              className="w-full px-4 text-gray-700 py-2 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-2.5 text-gray-800 hover:text-gray-700 focus:outline-none"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          <p className="text-sm text-gray-800  md:text-lg mb-3">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-blue-500 underline hover:text-blue-700"
+            >
+              Login
+            </button>
+          </p>
+
           <button
-            onClick={() => navigate("/login")}
-            className="w-9  text-lg text-blue-400 underline hover:text-blue-600 "
+            onClick={loginWithGoogle}
+            className="flex items-center gap-3 px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-md transition duration-200"
           >
-            Login
+            <div className="bg-white w-5 h-5 flex items-center justify-center">
+              <SiGoogle size={20} className="text-[#4285F4]" />
+            </div>
+            <span className="text-sm font-medium text-gray-700">
+              Sign in with Google
+            </span>
           </button>
-        </p>
 
-        <div className="flex justify-between items-center mt-6">
-          <button
-            onClick={onSignup}
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-          >
-                          {loading ? <SpinnerLoader /> : "Submit"}
-
-          </button>
-          <button onClick={onClose} className="text-blue-500 hover:underline">
-            Cancel
-          </button>
-            <button  type="button"
+          <div className="flex justify-between items-center mt-5">
+            <button
+              onClick={onSignup}
+              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+            >
+              {loading ? <SpinnerLoader /> : "Submit"}
+            </button>
+            <button onClick={onClose} className="text-blue-500 hover:underline">
+              Cancel
+            </button>
+            <button
               onClick={handleHome}
-              className="text-blue-500 hover:underline">
+              className="text-blue-500 hover:underline"
+            >
               Home
             </button>
-        </div>
-      </div>
-    </div>
+          </div>
+        </Box>
+      </Fade>
+    </Modal>
   );
 };
 

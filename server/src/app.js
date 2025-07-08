@@ -7,6 +7,11 @@ import errorHandler from './middleware/error.middleware.js';
 import Erouter from './controller/error.controller.js';
 import Frouter from './controller/feedback.controller.js';
 import path from "path";
+import session from 'express-session';
+
+import passport from 'passport';
+
+
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -34,6 +39,11 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
+
+app.use(session({ secret:process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Routes
 app.use('/api/auth', router);
