@@ -6,6 +6,8 @@ import { User } from "../models/user.model.js";
 //import transponder from "./mailer.js";
 import toast from "react-hot-toast";
 import Apiresponse from "../utils/Apiresponse.js";
+import passport from "passport";
+
 import authMiddleware from "../middleware/auth.middleware.js";
 const router = express.Router();
 
@@ -198,7 +200,7 @@ router.get('/success', (req, res) => {
 });
 
 // Protected Route
-router.get('/isAuthenticated', verifyToken, (req, res) => {
+router.get('/isAuthenticated', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'This is a protected endpoint',
     user: req.user,
