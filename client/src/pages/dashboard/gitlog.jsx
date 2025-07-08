@@ -13,8 +13,8 @@ const RecentActivity = () => {
 
   return (
     <div className="p-2 rounded-xl cursor-none bg-white text-gray-900 shadow-md w-[15rem]">      
-      {/* Existing Activities */}
-      
+      {/* Existing Activities *
+
 
       {/* Git Commits */}
       <h3 className="font-medium text-gray-800">Recent Git Commits</h3>
