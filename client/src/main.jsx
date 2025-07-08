@@ -15,8 +15,10 @@ import VerifyPage from "./pages/verify.jsx";
 import Admin from "./pages/admin/admin.jsx";
 import Docs from "./pages/docs.jsx";
 import Project from "./pages/project.jsx";
+import Success from "./login/success.jsx";
 import Profile from "./pages/profile.jsx";
 import NotFound from "./pages/notfoundpage.jsx";
+import Testo from "./pages/example.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -92,11 +94,20 @@ function App() {
         path: "verify/:token",
         element: <VerifyPage />,
       },
+      
       {
-        path: "signin",
+  path: "success",
+  element: (
+    <Publicroutes>
+      <Success />
+    </Publicroutes>
+  ),
+},
+      {
+        path: "test",
         element: (
           <Publicroutes>
-            <Signbutton />
+            <Testo/>
           </Publicroutes>
         ),
       },

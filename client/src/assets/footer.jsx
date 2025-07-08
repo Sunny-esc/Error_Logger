@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import logox from './svgs/logox.svg'
 
 export default function Footer() {
   const [current, setDate] = useState(getDate());
@@ -15,8 +16,11 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-white py-8 mt-20 shadow-inner">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between  ">
-        <div className="mb-6 md:mb-0 ">
-          <h1 className="text-2xl font-bold mb-2">logo</h1>
+        <div className="mb-6 md:mb-0 space-y-4 ">
+          <a href="/" className="md:text-2xl font-bold flex gap-1">
+            <img src={logox} alt="" className="w-9" />
+            logger
+          </a>
           <p className="text-sm text-gray-400 ">Building something great.</p>
         </div>
 
@@ -48,10 +52,10 @@ export default function Footer() {
         <div className="flex flex-col gap-2 mt-6  ">
           {current}
           <div className="flex gap-3 mt-2 text-gray-400">
-            <a href="#" className="hover:text-blue-400">
-              Twitter
+            <a href="https://www.instagram.com/s19_ctrl/" className="hover:text-blue-400">
+              insta
             </a>
-            <a href="#" className="hover:text-blue-400">
+            <a href="https://github.com/Sunny-esc" className="hover:text-blue-400">
               GitHub
             </a>
           </div>
