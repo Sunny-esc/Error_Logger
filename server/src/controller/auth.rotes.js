@@ -175,7 +175,7 @@ router.get(
 // Google callback route
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/' }),
+  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
   (req, res) => {
     // Successful authentication, send a token
     const token = jwt.sign({  userId: req.user._id}, process.env.JWT_SECRET, {
@@ -187,7 +187,7 @@ router.get(
       sameSite: "Strict",
     });
     res.redirect(
-      `${process.env.GOOGLE_AUTH_CLIENT_URL_SUCCESS}/success?token=${token}`
+      'https://error-logger-rust.vercel.app/dashboard'
     );
   }
 );
