@@ -130,7 +130,7 @@ router.get(
       expiresIn: "6h",
     });
     res.redirect(
-      `https://error-logger-rust.vercel.app/dashboard?token=${token}`
+      `https://error-logger-rust.vercel.app/success?token=${token}`
     );
   }
 );

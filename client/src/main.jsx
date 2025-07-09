@@ -40,6 +40,14 @@ function App() {
           </Publicroutes>
         ),
       },
+      {
+  path: "success",
+  element: (
+    <Publicroutes>
+      <Success />
+    </Publicroutes>
+  ),
+},
       
       {
         path: "projects",
