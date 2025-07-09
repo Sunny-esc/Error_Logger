@@ -20,7 +20,7 @@ export default function Logoutbutton() {
         {},
         { withCredentials: true }
       );
-
+      localStorage.removeItem("token");
       console.log("Logout successful:", response.data);
       toast.success("Logout successful!");
       setTimeout(() => navigate("/"), 1000);

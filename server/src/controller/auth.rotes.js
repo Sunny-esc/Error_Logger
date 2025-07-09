@@ -74,58 +74,6 @@ router.post("/register", async (req, res) => {
 });
 
 
-
-//git records
-const git = simpleGit();
-
-router.get('/commits', async (req, res) => {
-  try {
-    const log = await git.log({ maxCount: 5 }); // Get last 5 commits
-    const commits = log.all.map(commit => ({
-      message: commit.message,
-      author: commit.author_name,
-      date: commit.date,
-    }));
-    res.json(commits);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Unable to fetch commits' });
-  }
-});
-
-
-
-// admin user
-router.post("/admin", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const adminEmail = process.env.ADMIN_EMAIL || "Sunny@123";
-    const adminPassword = process.env.ADMIN_PASS || "Sunny@123";
-    if (email === adminEmail && password === adminPassword) {
-      // Generate token for admin (use a static admin ID)
-      const adminId = "admin123";
-      const token = jwt.sign(
-        { userId: adminId, isAdmin: true },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "Strict",
-      });
-      res.status(200).json(new Apiresponse(200, "Admin Token", { token }));
-    } else {
-      res.status(401).json({ error: "Invalid admin credentials" });
-    }
-  } catch (err) {
-    console.error("Admin login error:", err);
-    res
-      .status(500)
-      .json({ error: "Internal server error or not have admin access" });
-  }
-});
-
 // Login user
 router.post("/login", async (req, res) => {
   try {
@@ -181,13 +129,8 @@ router.get(
     const token = jwt.sign({  userId: req.user._id}, process.env.JWT_SECRET, {
       expiresIn: "6h",
     });
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
-    });
     res.redirect(
-      'https://error-logger-rust.vercel.app/dashboard'
+      `https://error-logger-rust.vercel.app/dashboard?token=${token}`
     );
   }
 );
@@ -223,7 +166,36 @@ router.get('/isAuthenticated', authMiddleware, (req, res) => {
 
 
 
-
+// admin user
+router.post("/admin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const adminEmail = process.env.ADMIN_EMAIL || "Sunny@123";
+    const adminPassword = process.env.ADMIN_PASS || "Sunny@123";
+    if (email === adminEmail && password === adminPassword) {
+      // Generate token for admin (use a static admin ID)
+      const adminId = "admin123";
+      const token = jwt.sign(
+        { userId: adminId, isAdmin: true },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+      });
+      res.status(200).json(new Apiresponse(200, "Admin Token", { token }));
+    } else {
+      res.status(401).json({ error: "Invalid admin credentials" });
+    }
+  } catch (err) {
+    console.error("Admin login error:", err);
+    res
+      .status(500)
+      .json({ error: "Internal server error or not have admin access" });
+  }
+});
 
 
 //get user profile
@@ -318,6 +290,26 @@ router.post("/updatepass", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+//git records
+const git = simpleGit();
+
+router.get('/commits', async (req, res) => {
+  try {
+    const log = await git.log({ maxCount: 5 }); // Get last 5 commits
+    const commits = log.all.map(commit => ({
+      message: commit.message,
+      author: commit.author_name,
+      date: commit.date,
+    }));
+    res.json(commits);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Unable to fetch commits' });
+  }
+});
+
 
 router.post("/updateemail", authMiddleware, async (req, res) => {
   console.log("Hit /updateemail route"); // <-- add this

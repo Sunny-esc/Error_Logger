@@ -12,6 +12,8 @@ import Sidecontent from "./sidecontent";
 import Newdashboard from "./dashboard/newdashboard";
 import Sidebar from "./dashboard/sidebar";
 import Testo from "./example";
+import Auth from "../login/auth"; 
+import { useNavigate } from "react-router";
 import { 
   Code, FileText, Calendar, TrendingUp, Users, Activity, BarChart3, 
   PieChart, Clock, Star, Search, Filter, Download, Share2, Edit, 
@@ -27,6 +29,8 @@ export default function Dashboard() {
   const [openUserz, setOpenUserz] = useState(null);
   const [openUser, setOpenUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
   
   //posts show
   const handleUserClick = (userId) => {
@@ -86,7 +90,17 @@ export default function Dashboard() {
     </div>
   );
 
-  
+  useEffect(() => {
+  const queryParams = new URLSearchParams(window.location.search);
+  const token = queryParams.get("token");
+
+  if (token) {
+    localStorage.setItem("token", token);
+    Auth.isUser = true;
+    navigate("/dashboard", { replace: true }); // clean URL
+  }
+}, []);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
