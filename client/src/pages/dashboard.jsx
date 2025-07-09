@@ -13,7 +13,7 @@ import Newdashboard from "./dashboard/newdashboard";
 import Sidebar from "./dashboard/sidebar";
 import Testo from "./example";
 import Auth from "../login/auth"; 
-import { useNavigate } from "react-router";
+import { useNavigate,useLocation } from "react-router";
 import { 
   Code, FileText, Calendar, TrendingUp, Users, Activity, BarChart3, 
   PieChart, Clock, Star, Search, Filter, Download, Share2, Edit, 
@@ -90,16 +90,29 @@ export default function Dashboard() {
     </div>
   );
 
-  useEffect(() => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const token = queryParams.get("token");
+  const location = useLocation();
 
-  if (token) {
-    localStorage.setItem("token", token);
-    Auth.isUser = true;
-    navigate("/dashboard", { replace: true }); // clean URL
-  }
-}, []);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get("token");
+
+    if (token) {
+      try {
+        localStorage.setItem("token", token);
+        const decoded = jwtDecode(token);
+
+        // optional: set flags for Auth
+        Auth.isUser = true;
+        Auth.isAdmin = decoded?.isAdmin || false;
+
+        // Clean the URL (remove ?token=...)
+        navigate("/dashboard", { replace: true });
+      } catch (err) {
+        console.error("Invalid token format");
+        localStorage.removeItem("token");
+      }
+    }
+  }, [location, navigate]);
 
   useEffect(() => {
     const fetchProfile = async () => {
