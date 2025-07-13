@@ -59,7 +59,7 @@ export default function TechCarousel() {
   return (
     <div className="relative w-full overflow-hidden py-4">
       <motion.div
-        className="flex gap-12 px-4"
+        className="flex gap-12 px-4  min-w-max  "
         style={{ x }}
         ref={containerRef}
       >

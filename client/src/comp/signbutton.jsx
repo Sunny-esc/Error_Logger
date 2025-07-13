@@ -7,7 +7,7 @@ const Signbutton = () => {
   return (
     <>
       <button
-        className="flex  items-center gap-1 hover:underline    px-4 sm:px-6 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+        className="flex  items-center gap-1 hover:underline    px-4 sm:px-6 py-2 text-sm sm:text-base text-white bg-blue-600 shadow-lg rounded-xl hover:bg-blue-400 transition-colors duration-500"
         onClick={() => setShowPopup(true)}
       >
         <img src={sign} alt="signup" className="w-6" />

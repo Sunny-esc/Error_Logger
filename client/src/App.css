@@ -23,7 +23,7 @@ body {
 }
 
 .light {
-  --bg-gradient: linear-gradient(to right,#f8fbff,#d3e2fd, #f8fbff ); /* soft light blues */
+  --bg-gradient: radial-gradient(circle,#fff); /* soft light blues */
   --text-color: #1a1a1a; /* near-black for elegant contrast */
     --accent-color: #2563eb;
   --selection-bg: #bcd7ff;
@@ -32,7 +32,7 @@ body {
 }
 
 .dark {
-  --bg-gradient: linear-gradient(to right,  #020618, #162456, #020618); /* elegant deep slate shades */
+  --bg-gradient: radial-gradient(circle,  #111); /* elegant deep slate shades */
   --text-color: #f1f1f1; /* soft white */
     --accent-color: #3b82f6;
   --selection-bg: #3b82f660;

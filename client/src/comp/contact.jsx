@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 
 export default function SimplePaper() {
   const [user, setUser] = useState({
@@ -64,8 +68,8 @@ const retry=async (payload, retries = 3) => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <div className="flex flex-col md:flex-row  rounded-2xl p-6 md:p-10  backdrop-blur-md shadow-lg max-w-4xl w-full mx-4">
+    <div className="w-full h-full flex justify-center items-center ">
+      <div className="flex flex-col md:flex-row  rounded-2xl p-6 md:p-10 bg-white/20 backdrop-blur-md border border-white/30 shadow-lg max-w-4xl w-full mx-4">
         <div className="flex justify-center items-center md:w-1/2 mb-6 md:mb-0">
           <DotLottieReact
             src="https://lottie.host/992c8167-f043-45ea-9181-f66c466461c0/8r0fqaCaVx.lottie"
@@ -80,30 +84,87 @@ const retry=async (payload, retries = 3) => {
           <h1 className="text-3xl font-bold mb-6 text-center">Contact Dev</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="text-lg mb-1 block">Email:</label>
-              <input
-                type="email"
-                name="email"
-                value={user.email}
-                onChange={handleChange}
-                required
-                className="bg-slate-200 text-black rounded text-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                placeholder="Email"
-              />
+        <div className="mb-6">
+      <FormControl fullWidth variant="outlined">
+        <InputLabel
+          htmlFor="email"
+          sx={{
+            color: 'text.primary',
+            '&.Mui-focused': {
+              color: 'text.primary',
+            },
+          }}
+        >
+          Email
+        </InputLabel>
+        <OutlinedInput
+          id="email"
+          label="Email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          required
+          sx={{
+            color: 'text.primary',
+            backgroundColor: 'rgb(226 232 240)', // Tailwind bg-slate-200
+            borderRadius: '0.5rem', // rounded
+            fontSize: '1rem', // text-lg
+            '& fieldset': {
+              borderColor: 'rgba(100, 116, 139, 0.5)', // border-slate-400
+            },
+            '&:hover fieldset': {
+              borderColor: 'rgba(100, 116, 139)', // darker on hover
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#64748b', // focus color
+            },
+          }}
+        />
+      </FormControl>
+    </div>
+             
             </div>
 
-            <div className="mb-6">
-              <label className="text-lg mb-1 block">Message:</label>
-              <textarea
-                name="message"
-                value={user.message}
-                onChange={handleChange}
-                required
-                className="bg-slate-200 text-black rounded text-lg w-full p-2  resize-none focus:outline-none focus:ring-2 focus:ring-slate-400"
-                placeholder="Type your message"
-              />
-            </div>
-
+          <div className="mb-6">
+  <TextField
+    label="Message"
+    name="message"
+    value={user.message}
+    onChange={handleChange}
+    required
+    multiline
+    rows={4}
+    fullWidth
+    variant="outlined"
+    sx={{
+      color: 'text.primary',
+      backgroundColor: 'rgb(226 232 240)', // Tailwind bg-slate-200
+      borderRadius: '0.5rem',
+      fontSize: '1rem',
+      '& .MuiInputBase-input': {
+        color: 'inherit',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: 'rgba(100, 116, 139, 0.5)',
+        },
+        '&:hover fieldset': {
+          borderColor: 'rgba(100, 116, 139)',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#64748b',
+        },
+       
+      },
+    }}
+    InputLabelProps={{
+      sx: {
+        color: 'text.sucess',
+        
+      },
+    }}
+  />
+</div>
             <div className="text-center">
               <button
                 type="submit"
