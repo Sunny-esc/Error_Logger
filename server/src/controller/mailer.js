@@ -3,8 +3,8 @@ import nodemailer from 'nodemailer';
 const transponder=nodemailer.createTransport({
     service:"gmail",
     auth:{
-        user:process.env.EMAIL ||"s19ctrl@gmail.com",
-        pass:process.env.PASS||"jhgnnrrpdlqqshvo",
+        user:process.env.EMAIL ,
+        pass:process.env.PASS,
     }
 });
 /**

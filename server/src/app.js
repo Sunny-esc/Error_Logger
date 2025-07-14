@@ -10,7 +10,10 @@ import path from "path";
 import session from 'express-session';
 import './controller/passport.js'
 import passport from 'passport';
-
+import mongoSanitize from 'express-mongo-sanitize'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
+import csurf from 'csurf';
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -25,6 +28,7 @@ app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
+const csrfProtection = csurf({ cookie: false }); // token stored in session
 // ✅ CORS comes FIRST
 const allowedOrigins = [
 , // production frontend
@@ -39,14 +43,25 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
+app.use(mongoSanitize());     // Prevents MongoDB operator injection
+app.use(helmet());
 
 app.use(session({ secret:process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(csrfProtection); // ✅ CSRF protection middleware
 
+// Rate Limiting
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 10 requests per window
+  message: 'Too many authentication attempts, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // Routes
-app.use('/api/auth', router);
+app.use('/api/auth',authLimiter, router);
 app.use('/api/',Erouter);
 app.use('/api/v1/healthcheck', healthcheckRouter);
 app.use('/api/', Frouter);
