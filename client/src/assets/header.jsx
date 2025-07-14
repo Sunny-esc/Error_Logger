@@ -111,7 +111,7 @@ export default function Header() {
     <div className="flex  justify-between backdrop-blur-xl   items-center text-xl shadow-2xl my-1 rounded-2xl px-6 py-4 fixed top-0 w-full    z-50">
         <a href="/" className="absolute left-1/2 transform -translate-x-1/2 md:text-3xl font-bold flex gap-1">
             <img src={logox} alt="" className="w-9" />
-            logger
+           Error Logger
           </a>
     {mobile ? (
   <MobileDrawer renderLinks={renderLinks} />

@@ -7,7 +7,10 @@ import notes from '../notes.svg';
 import account from '../account.svg';
 import archive from '../archive.svg';
 import Logoutbutton from "../../../comp/logout";
-import { Link } from "react-router";
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Drawer, Box, Button } from '@mui/material';
+
 
 const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick,oninfo }) => {
   const navigate = useNavigate();
@@ -30,44 +33,6 @@ const Expand = ({ onNotesClick, onsaved,onprofile,onhomeClick,oninfo }) => {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <div className="md:hidden flex justify-between items-center px-4 py-2">
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="text-white bg-gray-700 px-3 py-2 rounded-md"
-        >
-          {mobileMenuOpen ? "Close Menu" : "Open Menu"}
-        </button>
-        <ChangeTheme />
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden flex flex-col  rounded-xl shadow-lg p-4 gap-4 mx-2">
-          <button  className="flex items-center gap-2" onClick={onhomeClick}>
-            <img src={home} alt="Home" className="w-6" />
-            <span>Home</span>
-          </button>
-          <button onClick={onNotesClick} className="flex items-center gap-2">
-            <img src={notes} alt="Notes" className="w-6" />
-            <span>Notes</span>
-          </button>
-          <button onClick={onsaved} className="flex items-center gap-2">
-            <img src={archive} alt="Saved" className="w-6" />
-            <span>Saved</span>
-          </button>
-          <button className="flex items-center gap-2" onClick={onprofile}>
-            <img src={account} alt="Account" className="w-6" />
-            <span>Account</span>
-          </button>
-         <button className="flex items-center gap-2" onClick={oninfo}>
-            <img src={account} alt="Account" className="w-6" />
-            <span>info</span>
-          </button>
-          <Logoutbutton />
-        </div>
-      )}
-
       {/* Desktop Sidebar */}
       <div
         ref={ref}
