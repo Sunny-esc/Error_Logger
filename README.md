@@ -1,10 +1,31 @@
-# 🐞 ERROR_LOGGER
+# 🐞 Error Logger
 
 > **Transform Errors Into Action, Instantly and Securely**
 
 ![Last Commit](https://img.shields.io/github/last-commit/Sunny-esc/Error_Logger?style=for-the-badge)
 ![Tech](https://img.shields.io/badge/javascript-98.8%25-yellow?style=for-the-badge&logo=javascript)
 ![Hosted on Render](https://img.shields.io/badge/Hosted%20on-Render-3C3C3C?style=for-the-badge&logo=render&logoColor=white)
+
+---
+
+## ✨ Features
+
+- 🐛 Log and save custom errors or code snippets with timestamp and language
+- 🔐 Secure login and signup system with JWT authentication
+- 📧 Email verification for new users (Nodemailer + JWT)
+- 🏠 Personalized dashboard with live stats, charts, and recent activity
+- 📝 Code editor with syntax highlighting (CodeMirror)
+- 📂 Filter, search, copy, edit, and delete your snippets
+- 👤 User profile management and saved notes
+- 🌐 Admin & User Dashboard
+- 📊 Analytics: language distribution, recent activity, quick stats
+- ⚙️ Built with the MERN stack (MongoDB, Express, React, Node.js)
+- 💽 MongoDB + Express backend
+- 🎨 Modern dark theme, responsive design, and smooth UX
+
+---
+
+## 🧪 Tech Stack
 
 ![Languages](https://img.shields.io/github/languages/count/Sunny-esc/Error_Logger?style=for-the-badge)
 
@@ -30,16 +51,11 @@
   <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=reactrouter" />
 </p>
 
----
 
-## ✨ Features
-
-- 🐛 Log and save custom errors with timestamp
-- 🔐 Secure login and signup system with JWT
-- 🌐 Admin & User Dashboard
-- 🕵️ Filter and view logged errors anytime
-- ⚙️ Built with MERN stack
-- 💽 MongoDB + Express backend
+- **Frontend:** React, Tailwind CSS, CodeMirror, Material UI, Lucide React Icons, Axios, Framer Motion, GSAP
+- **Backend:** Express, MongoDB, JWT, Bcrypt, Nodemailer, Passport (Google OAuth)
+- **Security:** Helmet, express-mongo-sanitize, express-rate-limit, csurf
+- **Notifications:** react-hot-toast
 
 ---
 
@@ -57,24 +73,74 @@ npm install
 npm run dev
 
 # In a separate terminal, install frontend
-cd client
+cd ../client
 npm install
 
 # Start frontend
 npm run dev
+```
 
+---
+
+## 🗂️ Project Structure
+
+```
 error-logger/
 ├── server/
-│   ├── models/
-│   ├── routes/
-│   └── ...
+│   ├── src/
+│   │   ├── controller/
+│   │   ├── db/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── utils/
+│   └── package.json
 ├── client/
-│   ├── components/
-│   ├── pages/
-│   └── ...
+│   ├── src/
+│   │   ├── api/
+│   │   ├── assets/
+│   │   ├── comp/
+│   │   ├── login/
+│   │   ├── pages/
+│   │   └── App.css, main.jsx, etc.
+│   └── package.json
+└── README.md
 ```
-🚀 Live Demo
-🔗 https://error-logger-rust.vercel.app/
 
-🧑‍💻 Author
-👋 Hi, I'm Sunny
+---
+
+## 🔗 API Endpoints
+
+- **Register:** `/api/auth/register`
+- **Verify:** `/api/auth/verify/:token`
+- **Login:** `/api/auth/login`
+- **Add Error/Snippet:** `POST /api/add`
+- **Get All Errors/Snippets:** `GET /api/all`
+- **Get Profile:** `GET /api/auth/profile`
+- **Other endpoints** for updating, deleting, and sharing snippets as implemented
+
+---
+
+## 🚀 Live Demo
+
+[https://error-logger-rust.vercel.app/](https://error-logger-rust.vercel.app/)
+
+---
+
+## 👤 Author
+
+Hi, I'm Sunny!  
+Feel free to reach out or contribute.
+
+---
+
+## 📌 Notes & Tips
+
+- Verify your email before logging in for the first time
+- All snippets are private to your account unless shared
+- Use filters and search to quickly find your code
+- Expand the app with tags, export, or sharing features as needed
+
+---
+
+**Let me know if you want this update applied, or if you want a separate README for the client folder as well!**

@@ -217,6 +217,12 @@ if (time < 12) {
   //show up setting
   const [activeTab, setActiveTab] = useState("dashboard"); // "dashboard", "notes", or "saved"
 
+
+  const [showProfile, setShowProfile] = useState(false);
+
+const handlePClick = () => {
+  setShowProfile(!showProfile);
+};
   return (
     <>
       <div>
@@ -292,16 +298,17 @@ if (time < 12) {
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <button className="p-2 rounded-lg hover:bg-slate-300 relative">
-                        <Bell className="w-5 h-5 " />
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                      </button>
-                      <button className="p-2 rounded-lg hover:bg-slate-300">
+                   
+                   
+                      <button className="p-2 rounded-lg hover:bg-slate-300" onClick={handlePClick} >
                         <User className="w-5 h-5 " />
+                        
+                       
                       </button>
                     </div>
                   </div>
                 </header>
+                    {showProfile && <Profile />}
 
                 <main className="p-6">
                   {/* Welcome Section */}
