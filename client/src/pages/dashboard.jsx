@@ -2,14 +2,13 @@ import react1 from "../assets/svgs/logo/react1.svg";
 import axios from "axios";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Expand from "./dashboard/components/nav";
+import Mobilenav  from "./dashboard/components/mobilemenu";
+
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import Notes from "./notes";
 import Notesaved from "./StoredNotes/stored";
 import Profile from "./profile";
-import RecentActivity from './dashboard/gitlog'
-import Sidecontent from "./sidecontent";
-import Newdashboard from "./dashboard/newdashboard";
 import Sidebar from "./dashboard/sidebar";
 import Testo from "./example";
 import Auth from "../login/auth"; 
@@ -218,11 +217,49 @@ if (time < 12) {
   //show up setting
   const [activeTab, setActiveTab] = useState("dashboard"); // "dashboard", "notes", or "saved"
 
+
+  const [showProfile, setShowProfile] = useState(false);
+
+const handlePClick = () => {
+  setShowProfile(!showProfile);
+};
   return (
     <>
       <div>
         <div className="flex flex-col md:flex-row gap-2 min-h-screen ">
           <div className="w-full md:w-[15%] ">
+            
+            {/* imported from mobile.jsx mobile nav bar */}
+
+            <div className="md:hidden">
+            <Mobilenav  onNotesClick={() =>
+                setActiveTab((prev) =>
+                  prev === "notes" ? "dashboard" : "notes"
+          )
+        }
+        onsaved={() =>
+          setActiveTab((prev) =>
+            prev === "saved" ? "dashboard" : "saved"
+      )
+              }
+              onprofile={() =>
+                setActiveTab((prev) =>
+                  prev === "profile" ? "dashboard" : "profile"
+                )
+              }
+              onhomeClick={() =>
+                setActiveTab((prev) =>
+                  prev === "home" ? "dashboard" : "dashboard"
+                )
+              }
+              oninfo={() =>
+                setActiveTab((prev) => (prev === "info" ? "dashboard" : "info"))
+              }/>
+                </div>
+
+
+
+                {/* imported from nav.jsx desktop nav bar */}
             <Expand
               onNotesClick={() =>
                 setActiveTab((prev) =>
@@ -254,23 +291,24 @@ if (time < 12) {
             {activeTab === "dashboard" && (
               <div className="min-h-screen  ">
                 {/* Header */}
-                <header className="border-b border-slate-700/50 p-4">
+                <header className="border-b border-slate-700/50 p-4 hidden md:block">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <h1 className="text-2xl font-bold">Dashboard</h1>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <button className="p-2 rounded-lg hover:bg-slate-300 relative">
-                        <Bell className="w-5 h-5 " />
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                      </button>
-                      <button className="p-2 rounded-lg hover:bg-slate-300">
+                   
+                   
+                      <button className="p-2 rounded-lg hover:bg-slate-300" onClick={handlePClick} >
                         <User className="w-5 h-5 " />
+                        
+                       
                       </button>
                     </div>
                   </div>
                 </header>
+                    {showProfile && <Profile />}
 
                 <main className="p-6">
                   {/* Welcome Section */}
@@ -307,7 +345,7 @@ if (time < 12) {
                   )}
 
                   {/* Stats Cards */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  <div className="grid mt-10 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <StatCard
                       title="Total Snippets"
                       value={usersz.length}
