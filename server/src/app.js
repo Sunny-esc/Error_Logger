@@ -28,7 +28,7 @@ app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
-const csrfProtection = csurf({ cookie: false }); // token stored in session
+//const csrfProtection = csurf({ cookie: false }); // token stored in session
 // ✅ CORS comes FIRST
 const allowedOrigins = [
 , // production frontend
