@@ -21,7 +21,7 @@ import {
   Settings, User, Bell, Menu, X 
 } from "lucide-react";
 import Skeleton from '@mui/material/Skeleton';
-
+import ProfileNew from "./profileNew";
 export default function Dashboard() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [users, setUsers] = useState([]);
@@ -425,7 +425,7 @@ if (time < 12) {
               )}
               {activeTab === "profile" && (
                 <div>
-                  <Profile />
+                  <ProfileNew />
                 </div>
               )}
               {activeTab === "info" && (
