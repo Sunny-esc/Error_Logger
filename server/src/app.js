@@ -13,7 +13,7 @@ import passport from 'passport';
 import mongoSanitize from 'express-mongo-sanitize'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import csurf from 'csurf';
+//import csurf from 'csurf';
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -49,7 +49,7 @@ app.use(helmet());
 app.use(session({ secret:process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(csrfProtection); // ✅ CSRF protection middleware
+//app.use(csrfProtection); // ✅ CSRF protection middleware
 
 // Rate Limiting
 const authLimiter = rateLimit({
