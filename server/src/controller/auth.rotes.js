@@ -91,14 +91,19 @@ router.post("/register",   [
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create and save user
-    const newUser = new User({
+    const userData = new User({
       username,
       email,
       password: hashedPassword,
       verified: false,
     });
-    await newUser.save();
-    await sendVerificationEmail(newUser);
+       // Only include googleId if it's present and non-null
+    if (googleId) {
+      userData.googleId = googleId;
+    }
+
+    await userData.save();
+    await sendVerificationEmail(userData);
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error("Register error:", err);
