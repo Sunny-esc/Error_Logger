@@ -79,7 +79,7 @@ router.post("/register",   [
       return res.status(400).json({ errors: errors.array() });}
 
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password ,googleId} = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ email }] });
