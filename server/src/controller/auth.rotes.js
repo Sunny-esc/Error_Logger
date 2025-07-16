@@ -3,6 +3,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import simpleGit from 'simple-git'
+import transponder from "./mailer.js";
 import { User } from "../models/user.model.js";
 //import transponder from "./mailer.js";
 import toast from "react-hot-toast";
