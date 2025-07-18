@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import google from "../../assets/svgs/google.svg"
-import toast from "react-hot-toast";
 
 const SpinnerLoader = ({ size = "w-6 h-6", color = "border-purple-500" }) => (
   <div
