@@ -5,6 +5,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "react-hot-toast";
 import NoteModal from "./NoteModal";
 import CodeViewModal from "./CodeViewModal"; // <-- add this
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Notesaved() {
   const [notes, setNotes] = useState([]);
@@ -72,16 +73,18 @@ export default function Notesaved() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 max-w-4xl mx-auto">
       {loading && (
-        <div className="text-center text-blue-500 font-medium mb-4">Loading...</div>
+        <div className="text-center text-blue-500 font-medium mb-4">
+          Loading...
+        </div>
       )}
 
       <h2 className="text-2xl font-bold mb-6 border-b pb-2 border-gray-300">
-        Your Saved Notes
+        Your Saved Code
       </h2>
 
-      <ul className="space-y-4">
+      <ul className="space-y-4 md:p-6 min-h-150 md:max-h-126 overflow-y-auto custom-scroll">
         {notes.map((note) => (
           <li
             key={note._id}
@@ -98,23 +101,41 @@ export default function Notesaved() {
               <SyntaxHighlighter
                 language={note.lang || "javascript"}
                 style={vscDarkPlus}
-                customStyle={{ background: "transparent", margin: 0, padding: 0 }}
+                customStyle={{
+                  background: "transparent",
+                  margin: 0,
+                  padding: 0,
+                }}
               >
-                {note.message.length > 100 ? note.message.slice(0, 100) + "..." : note.message}
+                {note.message.length > 100
+                  ? note.message.slice(0, 100) + "..."
+                  : note.message}
               </SyntaxHighlighter>
             </div>
             <p className="text-xs text-gray-500">
               Logged on: {new Date(note.timestamp).toLocaleString()}
             </p>
-            <button
-  className="text-purple-500 underline text-sm mt-2 ml-4"
-  onClick={(e) => {
-    e.stopPropagation();
-    setViewCode({ open: true, message: note.message, lang: note.lang || "javascript" });
-  }}
->
-  View Full Code
-</button>
+
+            <div className="flex justify-between">
+              <button
+                className="text-purple-900 flex gap-2 underline text-sm mt-2 ml-4"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setViewCode({
+                    open: true,
+                    message: note.message,
+                    lang: note.lang || "javascript",
+                  });
+                }}
+              >
+                {" "}
+                <Eye size={18} />
+                View Full Code
+              </button>
+              <p className="text-slate-500 text-sm underline">
+                click on code to edit it
+              </p>
+            </div>
           </li>
         ))}
       </ul>

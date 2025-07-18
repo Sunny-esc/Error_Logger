@@ -19,6 +19,8 @@ import Success from "./login/success.jsx";
 import Profile from "./pages/profile.jsx";
 import NotFound from "./pages/notfoundpage.jsx";
 import Testo from "./pages/example.jsx";
+import LoginPage from "./login/pages/loginpages.jsx";
+import SignupPage from "./login/pages/signuppagge.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -132,6 +134,22 @@ function App() {
         element: (
           <Publicroutes>
             <LoginPopup />
+          </Publicroutes>
+        ),
+      },
+        {
+        path: "loginpage",
+        element: (
+          <Publicroutes>
+            <LoginPage />
+          </Publicroutes>
+        ),
+      },
+      {
+        path: "signuppage",
+        element: (
+          <Publicroutes>
+            <SignupPage/>
           </Publicroutes>
         ),
       },

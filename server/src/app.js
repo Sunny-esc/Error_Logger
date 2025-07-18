@@ -17,6 +17,7 @@ import rateLimit from 'express-rate-limit'
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import analyzeRouter from './controller/analyze.controller.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -65,6 +66,7 @@ app.use('/api/auth',authLimiter, router);
 app.use('/api/',Erouter);
 app.use('/api/v1/healthcheck', healthcheckRouter);
 app.use('/api/', Frouter);
+app.use('/api/', analyzeRouter);
 
 // Default route
 app.get('/', (req, res) => {

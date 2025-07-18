@@ -18,8 +18,7 @@ const sendVerificationEmail = async (user) => {
   const emailSecret = process.env.EMAIL ;
   const token = jwt.sign({ id: user._id }, emailSecret, { expiresIn: "1h" });
 
-  const url = `https://error-logger.onrender.com/verify/${token}`;
-
+const url = `https://error-logger-rust.vercel.app/verify/${token}`;
   await transponder.sendMail({
     to: user.email,
     subject: "Verify Your Account",
@@ -44,7 +43,10 @@ router.get("/verify/:token", async (req, res) => {
     const user = await User.findById(decoded.id);
 
     if (!user) return res.status(404).send("User not found");
-
+    
+    if (user.verified) {
+      return res.send('Your account is already verified.');
+    }
     user.verified = true;
     await user.save();
 

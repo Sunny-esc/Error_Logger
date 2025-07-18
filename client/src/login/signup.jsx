@@ -203,7 +203,7 @@ const LoginPopup = ({ onClose }) => {
           <p className="text-sm text-gray-800  md:text-lg mb-3">
             Already have an account?{" "}
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/loginpage")}
               className="text-blue-500 underline hover:text-blue-700"
             >
               Login

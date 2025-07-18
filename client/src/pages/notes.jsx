@@ -111,7 +111,7 @@ EditorView.updateListener.of((update) => {
 
    try {
      const token = localStorage.getItem("token");
-     const response = await axios.get("https://error-logger.onrender.com/api/all", {
+     const response = await axios.get(" http://localhost:3000/api/all", {
        headers: {
          Authorization: `Bearer ${token}`,
        },
@@ -139,7 +139,7 @@ EditorView.updateListener.of((update) => {
    try {
      const token = localStorage.getItem("token");
     await axios.post(
-       "https://error-logger.onrender.com/api/add",
+       " https://error-logger.onrender.com/api/add",
        { message: code,
          label: user.label,
          lang: user.lang,
@@ -164,46 +164,35 @@ EditorView.updateListener.of((update) => {
 
  return ( 
 
-   <div className="min-h-screen rounded-2xl bg-slate-950 md:p-4"> 
+   <div className="min-h-screen rounded-2xl  md:p-4"> 
       <Toaster position="top-center" reverseOrder={false} />
 
 
 <div className="max-w-6xl mx-auto">
        {/* Header */}
        <div className=" mb-8">
-         <div className="flex items-center justify-between gap-3 mb-4">
-           <div className="p-3 flex  rounded-xl shadow-lg">
-             <Terminal className="w-8 h-8 text-white" />
-
-           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-             Code Logger
-           </h1>
-         </div>
-         <p className="text-slate-400 text-lg">
-           Write, save, and manage your code snippets with professional tools
-         </p>
-       </div>
+      
 
        {/* Main Editor Card */}
-       <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl mb-8">
+       <div className="   rounded-2xl border border-slate-700/50 shadow-2xl mb-8">
          {/* Editor Header */}
          <div className="flex flex-col lg:flex-row items-center justify-between p-6 border-b border-slate-700/50">
            <div className="flex items-center gap-3 mb-4 lg:mb-0">
              <div className="flex gap-2">
-               <div className="w-3 h-3 bg-red-500 rounded-full shadow-lg"></div>
-               <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-lg"></div>
-               <div className="w-3 h-3 bg-green-500 rounded-full shadow-lg"></div>
+               <div className="w-5 h-5 bg-red-500 rounded-full shadow-lg"></div>
+               <div className="w-5 h-5 bg-yellow-500 rounded-full shadow-lg"></div>
+               <div className="w-5 h-5 bg-green-500 rounded-full shadow-lg"></div>
              </div>
              <span className="text-slate-400 text-sm font-medium ml-2">Code Editor</span>
            </div>
           
-           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+           <div className="flex  md:flex-row gap-3 w-full lg:w-auto">
              <div className="relative">
                <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Enter snippet label..."
-                className="pl-10 pr-4 py-3 bg-slate-700/60 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-full sm:w-48"
+                className="pl-10 pr-4 py-3 bg-gray-200 rounded-xl text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-full sm:w-48"
                 onChange={handleChange}
                value={user.label}
                 name="label"
@@ -213,7 +202,7 @@ EditorView.updateListener.of((update) => {
              <div className="relative">
                <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <select
-                className="pl-10 pr-8 py-3 bg-slate-700/60 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none w-full sm:w-40"
+                className="pl-10 pr-8 py-3 bg-gray-200 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none w-full sm:w-40"
                 onChange={handleChange}
                 value={user.lang}
                  name="lang"
@@ -233,7 +222,7 @@ EditorView.updateListener.of((update) => {
            <div className="relative">
              <div
                id="editor"
-               className="rounded-xl overflow-hidden border border-slate-700/50 shadow-inner"
+               className="rounded-xl overflow-hidden border border-slate-700/50 shadow-inner  custom-scroll"
                style={{ minHeight: "400px" }}
              ></div>
             
@@ -267,7 +256,7 @@ EditorView.updateListener.of((update) => {
                <button
                  onClick={fetchNotes}
                  disabled={fetchingNotes}
-                 className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-600/50 text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 disabled:opacity-50"
+                 className="flex items-center gap-2 bg-gray-300 text-black px-4 py-2 rounded-xl font-medium transition-all duration-200 disabled:opacity-50"
                >
                  <RefreshCw className={`w-4 h-4 ${fetchingNotes ? 'animate-spin' : ''}`} />
                  Refresh

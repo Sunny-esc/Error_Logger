@@ -111,7 +111,12 @@ const handleChangePassword = async () => {
   <h1 className="text-2xl font-bold mb-2">
     {loading ? "Loading..." : "User Details"}
   </h1>
-  <h2 className="text-xl font-semibold mb-4 text-gray-700">Registered User</h2>
+    {!loading && loggedInUser && !loggedInUser.verified && (
+  <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-4 rounded-md shadow-sm">
+    <p className="font-semibold">Your account is not verified.</p>
+    <p className="text-sm">Please verify your account using the email sent to you. If you don’t see it, check your spam folder.</p>
+  </div>
+)}
   <div className="overflow-x-auto">
     <table className="w-full table-auto border border-gray-300 rounded-lg overflow-hidden">
       <thead className="bg-gray-100 text-gray-700">
@@ -154,83 +159,7 @@ const handleChangePassword = async () => {
         ))}
       </tbody>
     </table>
-<button
-  onClick={() => setShowPasswordModal(true)}
-  className="bg-gray-200 p-2 rounded-lg m-2 transition-colors duration-300 hover:bg-gray-300"
->
-  Change Password
-</button>
-{showPasswordModal && (
-  <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
-      <h2 className="text-lg font-bold mb-4">Change Password</h2>
-      <input
-        type="password"
-        placeholder="Old Password"
-        className="w-full p-2 mb-3 border rounded"
-        value={oldPassword}
-        onChange={(e) => setOldPassword(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="New Password"
-        className="w-full p-2 mb-4 border rounded"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <div className="flex justify-end">
-        <button
-          onClick={() => setShowPasswordModal(false)}
-          className="mr-2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleChangePassword}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Submit
-        </button>
-      </div>
-    </div>
-  </div>
-)}
 
-
-<button
-  onClick={() => setShowEmailModal(true)}
-  className="bg-gray-200 p-2 rounded-lg m-2 transition-colors duration-300 hover:bg-gray-300"
->
-  Change Email
-</button>
-{showEmailModal && (
-  <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
-      <h2 className="text-lg font-bold mb-4">Change Email</h2>
-      <input
-        type="email"
-        placeholder="New Email"
-        className="w-full p-2 mb-4 border rounded"
-        value={newEmail}
-        onChange={(e) => setNewEmail(e.target.value)}
-      />
-      <div className="flex justify-end">
-        <button
-          onClick={() => setShowEmailModal(false)}
-          className="mr-2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleChangeEmail}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Submit
-        </button>
-      </div>
-    </div>
-  </div>
-)}
 
   </div>
 </div>

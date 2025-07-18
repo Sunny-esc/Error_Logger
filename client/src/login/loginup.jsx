@@ -212,7 +212,7 @@ const Login = ({ onClose }) => {
               Don’t have an account?{" "}
               <button
                 type="button"
-                onClick={() => navigate("/sign")}
+                onClick={() => navigate("/signuppage")}
                 className="text-blue-500 underline hover:text-blue-700"
               >
                 Sign

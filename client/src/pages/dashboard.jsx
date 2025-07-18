@@ -19,6 +19,8 @@ import {
   Trash2, Eye, Copy, Plus, RefreshCw, Terminal, Zap, Globe, 
   Settings, User, Bell, Menu, X 
 } from "lucide-react";
+import AiDashboard from "./aiDashboard";
+
 import Skeleton from '@mui/material/Skeleton';
 import ProfileNew from "./profileNew";
 export default function Dashboard() {
@@ -252,6 +254,11 @@ const handlePClick = () => {
                   prev === "home" ? "dashboard" : "dashboard"
                 )
               }
+                onaiClick={() =>
+                setActiveTab((prev) =>
+                  prev === "ai" ? "dashboard" : "ai"
+                )
+              }
               oninfo={() =>
                 setActiveTab((prev) => (prev === "info" ? "dashboard" : "info"))
               }/>
@@ -353,16 +360,7 @@ const handlePClick = () => {
                       color="bg-blue-500"
                       trend="+12%"
                     />
-                    <StatCard
-                      title="Total Views"
-                      value={usersz.reduce(
-                        (sum, note) => sum + (note.views || 0),
-                        0
-                      )}
-                      icon={Eye}
-                      color="bg-green-500"
-                      trend="+0%"
-                    />
+                   
                     <StatCard
                       title="Languages"
                       value={new Set(usersz.map((note) => note.lang)).size}
@@ -455,7 +453,11 @@ const handlePClick = () => {
                   <Notes />
                 </div>
               )}
-
+              {activeTab === "ai" && (
+                <div>
+                  <AiDashboard />
+                </div>
+              )}
               {activeTab === "saved" && (
                 <div>
                   <Notesaved />
@@ -479,8 +481,8 @@ const handlePClick = () => {
         </div>
         <div className=" flex items-center p-4 flex-col md:flex-row bg-gray-800 text-white text-shadow-2xs justify-around  ">
           {" "}
-          <h1 className=" text-xl md:text-2xl font-bold mb-2 md:mb-">Logger</h1>
-          <p className="text-base md:text-lg ">Welcome to your dashboard!</p>
+                   <p>Made by sunny 😎</p>
+
         </div>
       </div>
     </>

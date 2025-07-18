@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {toast,Toaster} from "react-hot-toast";
+import { useRef } from "react";
 
 export default function ProfileNew() {
  
@@ -106,15 +107,19 @@ const handleChangePassword = async () => {
     fetchProfile();
   }, []);
 
+
   return (
     <div className="mt-4 p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white rounded-2xl shadow-lg border border-gray-700 backdrop-blur-md">
   <Toaster />
   <h1 className="text-3xl font-extrabold mb-2 text-cyan-400">
     {loading ? "Loading..." : "User Details"}
   </h1>
-  <h2 className="text-xl font-semibold mb-6 text-gray-300">
-    Registered Users
-  </h2>
+  {!loading && loggedInUser && !loggedInUser.verified && (
+  <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-4 rounded-md shadow-sm">
+    <p className="font-semibold">Your account is not verified.</p>
+    <p className="text-sm">Please verify your account using the email sent to you. If you don’t see it, check your spam folder.</p>
+  </div>
+)}
 
   {/* User Cards */}
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -237,6 +242,8 @@ const handleChangePassword = async () => {
       </div>
     </div>
   )}
+
+  
 </div>
 
   );

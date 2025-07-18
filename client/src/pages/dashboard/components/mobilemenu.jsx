@@ -12,6 +12,7 @@ import { Drawer, Box, Button } from "@mui/material";
 import { 
    User, Bell, 
 } from "lucide-react";
+import cloud from '../../../assets/svgs/cloud.svg'
 
 export default function Mobilenav({
   onNotesClick,
@@ -19,6 +20,7 @@ export default function Mobilenav({
   onprofile,
   onhomeClick,
   oninfo,
+  onaiClick,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -82,7 +84,7 @@ export default function Mobilenav({
           >
             Home
           </Button>
-          <Button
+            <Button
             onClick={() => {
               onNotesClick();
               setMobileMenuOpen(false);
@@ -90,7 +92,17 @@ export default function Mobilenav({
             startIcon={<img src={notes} alt="Notes" className="w-6" />}
             sx={{ justifyContent: "flex-start" }}
           >
-            Notes
+            Code
+          </Button>
+          <Button
+            onClick={() => {
+              onaiClick();
+              setMobileMenuOpen(false);
+            }}
+            startIcon={<img src={cloud} alt="Notes" className="w-6" />}
+            sx={{ justifyContent: "flex-start" }}
+          >
+            Ai suggestion
           </Button>
           <Button
             onClick={() => {
