@@ -30,9 +30,9 @@ export default function LoginPage() {
 
   const pingServer = async () => {
     try {
-      await axios.get("http://localhost:3000/");
+      await axios.get("https://error-logger.onrender.com/");
     } catch (err) {
-      console.warn("Ping failed — probably sleeping");
+      toast.error("Ping failed — probably sleeping");
     }
   };
 
@@ -50,7 +50,7 @@ export default function LoginPage() {
     await pingServer();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
+      const response = await axios.post("https://error-logger.onrender.com/api/auth/login", {
         email,
         password,
       });
@@ -67,7 +67,7 @@ export default function LoginPage() {
   const loginWithGoogle = async () => {
     toast("Waking up server, please wait...", { duration: 5000 });
     await pingServer();
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = "https://error-logger.onrender.com/api/auth/google";
   };
 
   return (

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import google from "../../assets/svgs/google.svg"
+import toast from "react-hot-toast";
 
 const SpinnerLoader = ({ size = "w-6 h-6", color = "border-purple-500" }) => (
   <div
@@ -33,16 +34,16 @@ export default function SignupPage() {
 
   const pingServer = async () => {
     try {
-      await axios.get("http://localhost:3000/");
+      await axios.get("https://error-logger.onrender.com/");
     } catch (err) {
-      console.warn("Server wake-up failed");
+      toast.error("Server wake-up failed");
     }
   };
 
   const signupWithRetry = async (payload, retries = 3) => {
     for (let i = 0; i < retries; i++) {
       try {
-        return await axios.post("http://localhost:3000/api/auth/register", payload);
+        return await axios.post("https://error-logger.onrender.com/api/auth/register", payload);
       } catch (err) {
         if (i === retries - 1) throw err;
         await new Promise((res) => setTimeout(res, 3000));
@@ -91,7 +92,7 @@ export default function SignupPage() {
   const loginWithGoogle = async () => {
     toast("Waking up server, please wait...", { duration: 5000 });
     await pingServer();
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = "https://error-logger.onrender.com/api/auth/google";
   };
 
   return (
