@@ -12,7 +12,7 @@ import './controller/passport.js'
 import passport from 'passport';
 import mongoSanitize from 'express-mongo-sanitize'
 import helmet from 'helmet'
-import rateLimit from 'express-rate-limit'
+//import rateLimit from 'express-rate-limit'
 //import csurf from 'csurf';
 
 import { fileURLToPath } from "url";
@@ -53,16 +53,16 @@ app.use(passport.session());
 //app.use(csrfProtection); // ✅ CSRF protection middleware
 
 // Rate Limiting
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per window
-  message: 'Too many authentication attempts, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+//const authLimiter = rateLimit({
+ // windowMs: 15 * 60 * 1000, // 15 minutes
+  //max: 10, // limit each IP to 10 requests per window
+  //message: 'Too many authentication attempts, please try again later.',
+  //standardHeaders: true,
+  //legacyHeaders: false,
+//});
 
 // Routes
-app.use('/api/auth',authLimiter, router);
+app.use('/api/auth', router);
 app.use('/api/',Erouter);
 app.use('/api/v1/healthcheck', healthcheckRouter);
 app.use('/api/', Frouter);
