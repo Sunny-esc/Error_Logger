@@ -15,7 +15,7 @@ const VerifyPage = () => {
         setStatus("Email verified successfully! Redirecting to login...");
         toast.success("verfied");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/loginpage");
         }, 3000); // wait 3 seconds before redirect
       } catch (err) {
         setStatus("Verification failed: Invalid or expired token.");

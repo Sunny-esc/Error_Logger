@@ -79,7 +79,7 @@ export default function SignupPage() {
         username: `${username} `,
       });
       toast.success("Signup successful!");
-      navigate("/login");
+      navigate("/loginpage");
     } catch (err) {
       toast.error(err.response?.data?.error || "Signup failed!");
     } finally {
@@ -187,7 +187,7 @@ export default function SignupPage() {
               />
               <span>
                 I agree to the{" "}
-                <Link to="/terms" className="text-purple-400 hover:text-purple-300">
+                <Link to="notfound" className="text-purple-400 hover:text-purple-300">
                   Terms & Conditions
                 </Link>
               </span>

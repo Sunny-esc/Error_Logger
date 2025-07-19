@@ -7,6 +7,7 @@ import { SiGoogle } from "react-icons/si";
 import { Backdrop, Box, Modal, Fade, Button, Typography } from "@mui/material";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
+import google from "../assets/svgs/google.svg"
 
 const modalStyle = {
   position: "absolute",
@@ -215,7 +216,8 @@ const LoginPopup = ({ onClose }) => {
             className="flex items-center gap-3 px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-md transition duration-200"
           >
             <div className="bg-white w-5 h-5 flex items-center justify-center">
-              <SiGoogle size={20} className="text-[#4285F4]" />
+              <img src={google} alt="" />
+
             </div>
             <span className="text-sm font-medium text-gray-700">
               Sign in with Google
