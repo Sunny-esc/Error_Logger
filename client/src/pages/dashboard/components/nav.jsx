@@ -50,6 +50,7 @@ const Expand = ({ onaiClick,onNotesClick, onsaved,onprofile,onhomeClick,oninfo }
             </span>
           </button>
         </div>
+        
          <button className="mt-5 p-3 shadow-2xl rounded-2xl group flex gap-1 transition-all justify-center items-center duration-300 ease-in-out hover:scale-120" onClick={onaiClick}>
           <img src={cloud} alt="" className="w-9" />
           <span className="hidden group-hover:block group-hover:ease-in-out">Ai</span>

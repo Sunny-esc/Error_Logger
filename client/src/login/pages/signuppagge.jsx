@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import google from "../../assets/svgs/google.svg"
 
 const SpinnerLoader = ({ size = "w-6 h-6", color = "border-purple-500" }) => (
@@ -16,8 +16,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
     agreeToTerms: false,
@@ -53,8 +52,8 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, password, agreeToTerms } = formData;
-    if (!firstName || !lastName || !email || !password) {
+    const { username, email, password, agreeToTerms } = formData;
+    if (!username|| !email || !password) {
       toast.error("All fields are required.");
       return;
     }
@@ -77,7 +76,7 @@ export default function SignupPage() {
       const response = await signupWithRetry({
         email,
         password,
-        username: `${firstName} ${lastName}`,
+        username: `${username} `,
       });
       toast.success("Signup successful!");
       navigate("/login");
@@ -96,7 +95,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex bg-gray-900 text-white">
-      {/* Left Hero Section */}
+      {/* Left Hero Section */}<Toaster/>
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-600 to-indigo-800 relative">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 p-8 w-full flex flex-col justify-between">
@@ -140,17 +139,17 @@ export default function SignupPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className=" w-full">
+            
               <input
-                name="UserName"
+                name="username"
                 placeholder="User name"
-                value={formData.firstName}
+                value={formData.username}
                 onChange={handleChange}
-                className="p-2 bg-gray-800 text-white border border-gray-600 rounded"
+                className="p-2 w-full bg-gray-800 text-white border border-gray-600 rounded"
                 required
               />
             
-            </div>
+          
             <input
               name="email"
               type="email"

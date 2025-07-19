@@ -13,13 +13,15 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Loginbutton2 from "../comp/loginbutton2";
+import AOS from 'aos';
+import Aos from "aos";
 
 const navItems = [
-  { name: "Home", to: "/", icon:home },
-  { name: "About", to: "/about", icon: about },
+  { name: "Home", to: "/", icon:home ,aos:1500},
+  { name: "About", to: "/about", icon: about,aos:1700 },
 
-  { name: "Docs", to: "/docs", icon: docs },
-  { name: "Projects", to: "/projects", icon: product },
+  { name: "Docs", to: "/docs", icon: docs ,aos:1900},
+  { name: "Projects", to: "/projects", icon: product,aos:2000 },
 ];
 
 function MobileDrawer({ renderLinks }) {
@@ -85,15 +87,19 @@ export default function Header() {
 
   const renderLinks = () => (
     <div className={`${mobile ? "flex-col gap-4" : "flex space-x-6"} flex`}>
-      {navItems.map(({ name, to, icon }) => (
-        <div className="flex items-center gap-1" key={name}>
+      {navItems.map(({ name, to, icon,aos }) => (
+        <div className="flex items-center gap-1"  key={name}>
           <img
             src={icon}
             alt={`${name} icon`}
+             data-aos="fade-down" 
+            data-aos-duration={aos}
             className="w-6 mix-blend-darken"
           />
           <NavLink
             to={to}
+            data-aos="fade-down" 
+            data-aos-duration={aos}
             className={({ isActive }) =>
               `hover:underline hover:text-blue-400 transition flex ${
                 isActive ? "underline text-blue-400" : ""

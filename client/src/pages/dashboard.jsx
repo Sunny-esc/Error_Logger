@@ -230,49 +230,51 @@ const handlePClick = () => {
       <div>
         <div className="flex flex-col md:flex-row gap-2 min-h-screen ">
           <div className="w-full md:w-[15%] ">
-            
             {/* imported from mobile.jsx mobile nav bar */}
 
             <div className="md:hidden">
-            <Mobilenav  onNotesClick={() =>
-                setActiveTab((prev) =>
-                  prev === "notes" ? "dashboard" : "notes"
-          )
-        }
-        onsaved={() =>
-          setActiveTab((prev) =>
-            prev === "saved" ? "dashboard" : "saved"
-      )
-              }
-              onprofile={() =>
-                setActiveTab((prev) =>
-                  prev === "profile" ? "dashboard" : "profile"
-                )
-              }
-              onhomeClick={() =>
-                setActiveTab((prev) =>
-                  prev === "home" ? "dashboard" : "dashboard"
-                )
-              }
+              <Mobilenav
+                onNotesClick={() =>
+                  setActiveTab((prev) =>
+                    prev === "notes" ? "dashboard" : "notes"
+                  )
+                }
+                onsaved={() =>
+                  setActiveTab((prev) =>
+                    prev === "saved" ? "dashboard" : "saved"
+                  )
+                }
+                onprofile={() =>
+                  setActiveTab((prev) =>
+                    prev === "profile" ? "dashboard" : "profile"
+                  )
+                }
+                onhomeClick={() =>
+                  setActiveTab((prev) =>
+                    prev === "home" ? "dashboard" : "dashboard"
+                  )
+                }
                 onaiClick={() =>
-                setActiveTab((prev) =>
-                  prev === "ai" ? "dashboard" : "ai"
-                )
-              }
-              oninfo={() =>
-                setActiveTab((prev) => (prev === "info" ? "dashboard" : "info"))
-              }/>
-                </div>
+                  setActiveTab((prev) => (prev === "ai" ? "dashboard" : "ai"))
+                }
+                oninfo={() =>
+                  setActiveTab((prev) =>
+                    prev === "info" ? "dashboard" : "info"
+                  )
+                }
+              />
+            </div>
 
-
-
-                {/* imported from nav.jsx desktop nav bar */}
+            {/* imported from nav.jsx desktop nav bar */}
             <Expand
               onNotesClick={() =>
                 setActiveTab((prev) =>
                   prev === "notes" ? "dashboard" : "notes"
                 )
               }
+              onaiClick={() =>
+                  setActiveTab((prev) => (prev === "ai" ? "dashboard" : "ai"))
+                }
               onsaved={() =>
                 setActiveTab((prev) =>
                   prev === "saved" ? "dashboard" : "saved"
@@ -305,17 +307,16 @@ const handlePClick = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
-                   
-                   
-                      <button className="p-2 rounded-lg hover:bg-slate-300" onClick={handlePClick} >
+                      <button
+                        className="p-2 rounded-lg hover:bg-slate-300"
+                        onClick={handlePClick}
+                      >
                         <User className="w-5 h-5 " />
-                        
-                       
                       </button>
                     </div>
                   </div>
                 </header>
-                    {showProfile && <Profile />}
+                {showProfile && <Profile />}
 
                 <main className="p-6">
                   {/* Welcome Section */}
@@ -360,7 +361,7 @@ const handlePClick = () => {
                       color="bg-blue-500"
                       trend="+12%"
                     />
-                   
+
                     <StatCard
                       title="Languages"
                       value={new Set(usersz.map((note) => note.lang)).size}
@@ -481,8 +482,7 @@ const handlePClick = () => {
         </div>
         <div className=" flex items-center p-4 flex-col md:flex-row bg-gray-800 text-white text-shadow-2xs justify-around  ">
           {" "}
-                   <p>Made by sunny 😎</p>
-
+          <p>Made by sunny 😎</p>
         </div>
       </div>
     </>

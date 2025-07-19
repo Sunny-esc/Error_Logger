@@ -121,22 +121,7 @@ function App() {
           </Publicroutes>
         ),
       },
-      {
-        path: "login",
-        element: (
-          <Publicroutes>
-            <Login />
-          </Publicroutes>
-        ),
-      },
-      {
-        path: "sign",
-        element: (
-          <Publicroutes>
-            <LoginPopup />
-          </Publicroutes>
-        ),
-      },
+      
         {
         path: "loginpage",
         element: (

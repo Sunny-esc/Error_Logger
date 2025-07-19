@@ -111,7 +111,7 @@ EditorView.updateListener.of((update) => {
 
    try {
      const token = localStorage.getItem("token");
-     const response = await axios.get(" http://localhost:3000/api/all", {
+     const response = await axios.get(" https://error-logger.onrender.com/api/all", {
        headers: {
          Authorization: `Bearer ${token}`,
        },
