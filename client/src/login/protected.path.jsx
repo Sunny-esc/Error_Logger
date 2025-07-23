@@ -17,7 +17,7 @@ const ProtectedPath = ({ children }) => {
   }, []);
 
   if (checking) return null; // or a loading spinner
-  if (!hasToken) return <Navigate to="/login" />;
+  if (!hasToken) return <Navigate to="/loginpage" />;
   return children;
 };
 
