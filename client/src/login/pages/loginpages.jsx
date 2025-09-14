@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
+
 import { toast } from "react-hot-toast";
 import google from "../../assets/svgs/google.svg"
 // Spinner while logging in
@@ -54,6 +56,8 @@ export default function LoginPage() {
         email,
         password,
       });
+      localStorage.setItem("token", response.data.token);
+
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (err) {
@@ -73,6 +77,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-900 flex">
       {/* Left Side - Hero */}
+       <Toaster
+        position="top-center"     // or any position you like
+        reverseOrder={false}
+      />
       <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-purple-600 to-indigo-800 overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative z-10 flex flex-col justify-between p-8 text-white w-full">
